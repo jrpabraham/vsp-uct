@@ -1,0 +1,90 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.9 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{nty/global//global/global}
+  \entry{haushofer_short-term_2016}{article}{}
+    \name{author}{2}{}{%
+      {{hash=HJ}{%
+         family={Haushofer},
+         familyi={H\bibinitperiod},
+         given={Johannes},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Shapiro},
+         familyi={S\bibinitperiod},
+         given={Jeremy},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \list{language}{1}{%
+      {en}%
+    }
+    \keyw{C93, O12, D12, D13, D14}
+    \strng{namehash}{HJSJ1}
+    \strng{fullhash}{HJSJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{shorttitle}
+    \field{labelyear}{2016}
+    \field{labeldatesource}{year}
+    \field{sortinit}{H}
+    \field{sortinithash}{H}
+    \field{abstract}{%
+    We use a randomized controlled trial to study the response of poor
+  households in rural Kenya to large, unconditional cash transfers from the NGO
+  GiveDirectly. The transfers differ from other programs in that they are
+  explicitly unconditional, large, and concentrated in time. We randomized at
+  both the village and household levels; further, within the treatment group,
+  we randomized recipient gender (wife vs. husband), transfer timing (lump-sum
+  transfer vs. monthly installments), and transfer magnitude (USD 404 PPP vs.
+  USD 1,525 PPP). We find a strong consumption response to transfers, with an
+  increase in household monthly consumption from USD 158 PPP to USD 193 PPP
+  nine months after the transfer began. Transfer recipients experience large
+  increases in psychological wellbeing. We find no overall effect on levels of
+  the stress hormone cortisol, although there are differences across some
+  subgroups. Monthly transfers are more likely than lump-sum transfers to
+  improve food security, while lump-sum transfers are more likely to be spent
+  on durables, suggesting that households face savings and credit constraints.
+  Together, these results suggest that unconditional cash transfers have
+  significant impacts on economic outcomes and psychological wellbeing.%
+    }
+    \verb{doi}
+    \verb 10.1093/qje/qjw025
+    \endverb
+    \field{issn}{0033-5533, 1531-4650}
+    \field{pages}{qjw025}
+    \field{shorttitle}{The {Short}-{Term} {Impact} of {Unconditional} {Cash}
+  {Transfers} to the {Poor}}
+    \field{title}{The {Short}-{Term} {Impact} of {Unconditional} {Cash}
+  {Transfers} to the {Poor}: {Experimental} {Evidence} from {Kenya}}
+    \verb{url}
+    \verb http://qje.oxfordjournals.org/content/early/2016/07/14/qje.qjw025
+    \endverb
+    \verb{file}
+    \verb Snapshot:/Users/Justin/Zotero/storage/AUTMJN42/qje.qjw025.html:text/h
+    \verb tml
+    \endverb
+    \field{journaltitle}{The Quarterly Journal of Economics}
+    \field{month}{07}
+    \field{year}{2016}
+    \field{urlday}{16}
+    \field{urlmonth}{01}
+    \field{urlyear}{2017}
+  \endentry
+\enddatalist
+\endinput
