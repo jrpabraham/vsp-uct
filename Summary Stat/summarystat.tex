@@ -57,24 +57,73 @@
 
 \noindent \textit{Justin Abraham, Nathaniel Bechhofer, and Minki Kim} \\
 
-\subsection*{Summary}
+\subsection*{Summary Statistics}
+We use the data from a randomized controlled trial of an unconditional cash transfer (UCT) pgrogram conducted in rural Kenya. 
 
-    Our project will address one of the following research questions.
-
-    \begin{enumerate}
-
-        \item How do reduced form effects of cash transfers change over time?
-        \item How do effects depend on proximity to treated units?
-        \item Do firms/households anticipate the receipt of cash transfers by adjust prices?
-        \item How does enumerator/participant gender affect self-reported data?
-
-    \end{enumerate}
-
-\subsection*{Data}
-
-    This analysis will use data from a randomized controlled trial of an unconditional cash transfer (UCT) program conducted in rural Kenya \parencite{haushofer_short-term_2016}. Between 2011 and 2013, GiveDirectly provided UCTs to poor households\footnote{At the time eligibility for the program was determined by living in a house with a thatched roof.} in rural Kenya amounting to USD PPP 404 and USD PPP 1525. The experimental design involved the random assignment of 60 villages to participate in the program and 60 in the control group \texit{and} the random assignment of eligible households within treatment villages to receive a cash transfer. Among households receiving the transfer, the trial also randomized whether the recipient was the head male or female, whether the transfer was paid out regularly or in a lump sum, and the size of the transfer. The data is comprised of a baseline survey collected before the intervention ($N=1008$), an endline survey a few weeks after the end of the intervention ($N=940$), and a long-term follow up 3 years after the endline survey ($N=901$). Surveys collected for sample households information on asset ownership, consumption, education, physical health, subjective well-being, business activity, labor supply, political behavior, investment decisions, and cortisol levels. The baseline and endline survey also collected village-level data on prices, wages, and violent conflict.
+ \begin{table}[htbp]\centering \caption{Summary statistics on the random assignment \label{sumstat}}
+	\begin{tabular}{l c c  c}\hline\hline
+		\multicolumn{1}{c}{\textbf{Variable}} & \textbf{Mean}
+		& \textbf{Std. Dev.} & \textbf{N}\\ \hline
+		Female respondent & 0.5 & 0.5  & 2880\\
+		Male respondent & 0.5 & 0.5  & 2880\\
+		Treatment & 0.349 & 0.477  & 2880\\
+		Control HH in Treatment Village & 0.351 & 0.477  & 2880\\
+		Control village & 0.3 & 0.458  & 2880\\
+			\hline
+	\end{tabular}
+\end{table}
 
 
-\printbibliography
+
+    \begin{table}[h]\centering \caption{Summary statistics for selected variables  \label{sumstat}}
+    	\begin{tabular}{l c c  c}\hline\hline
+    		\multicolumn{1}{c}{\textbf{Variable}} & \textbf{Mean}
+    		& \textbf{Std. Dev.} & \textbf{N}\\ \hline
+    		Age (respondent) & 34.786 & 14.005  & 2876\\
+    		Marital status (respondent) & 0.772 & 0.42  & 2880\\
+    		Years of education completed (respondent) & 8.688 & 2.925  & 2880\\
+    			\hline
+    	\end{tabular}
+    \end{table}
+For each variable, the first row corresponds to pre-treatment and the second row to post-treatment variable. Respondents were asked to report their age and marital status, along the gender.
+
+    \begin{table}[h]\centering \caption{Summary statistics for selected variables  \label{sumstat}}
+	\begin{tabular}{l c c  c}\hline\hline
+		\multicolumn{1}{c}{\textbf{Variable}} & \textbf{Mean}
+		& \textbf{Std. Dev.} & \textbf{N}\\ \hline
+    		Number of children $<$ =18 or younger in Household & 2.031 & 2.043  & 2880\\
+    		Number of children $<$ =18 or younger in Household & 2.867 & 1.94  & 2880\\
+    		Household size & 4.953 & 2.129  & 2016\\
+    		Household size & 5.042 & 2.15  & 2744\\
+    		Non-durable expenditure (USD) & 125.288 & 137.394  & 2880\\
+    		Non-durable expenditure (USD) & 163.488 & 98.476  & 2880\\
+    		Total revenue, monthly (USD) & 47.845 & 251.343  & 2880\\
+    		Total revenue, monthly (USD) & 52.042 & 92.705  & 2880\\
+    		Female empowerment index & -0.042 & 1.008  & 1370\\
+    		Female empowerment index & -0.036 & 1.069  & 1891\\
+    		Food total (USD) & 93.576 & 112.002  & 2880\\
+    		Food total (USD) & 106.674 & 68.343  & 2880\\
+    		Medical expenditure past month (USD) & 2.472 & 11.515  & 2880\\
+    		Medical expenditure past month (USD) & 6.777 & 14.272  & 2880\\
+    		Total expenditure (USD) & 127.446 & 139.309  & 2880\\
+    		Total expenditure (USD) & 172.971 & 103.663  & 2880\\
+    		Wage labor primary income (dummy) & 0.178 & 0.383  & 2880\\
+    		Wage labor primary income (dummy) & 0.171 & 0.376  & 2880\\
+    		Farm revenue, monthly (USD) & 4.471 & 8.268  & 2880\\
+    		Farm revenue, monthly (USD) & 9.18 & 8.624  & 2880\\
+    		Farm flow expenses, monthly (USD) & 1.922 & 4  & 2880\\
+    		Farm flow expenses, monthly (USD) & 5.351 & 6.212  & 2880\\
+    		Total expenses, monthly (USD) & 21.28 & 107.214  & 2880\\
+    		Total expenses, monthly (USD) & 27.205 & 63.221  & 2880\\
+    		Durable Investments & 283.557 & 384.103  & 2880\\
+    		Durable Investments & 555.694 & 466.935  & 2880\\
+    		Non-durable Investments & 34.092 & 143.672  & 2880\\
+    		Non-durable Investments & 45.109 & 81.154  & 2880\\
+    		\hline
+    	\end{tabular}
+    \end{table}
+
+ The data contain basic household level demographic information, such as Number of children, sizes of the surveyed households, the number of children.  
+    
 
 \end{document}
