@@ -131,5 +131,5 @@ foreach thisvarlist in $regvars {
 		local countse = `count' + 1
 	}
 
-	esttab col* using "$output_dir/`thisvarlist'_sqdev.tex",  cells(none) booktabs nonum nonotes compress replace mtitle("Interaction" "Sq. deviation" "\specialcell{Treated village}" "\specialcell{Control mean\\(Std. dev.)}" "Obs.") stats(`statnames', labels(`varlabels') )
+	esttab col* using "$output_dir/`thisvarlist'_sqdev.tex",  cells(none) booktabs nonum nonotes compress replace mtitle("Interaction" "Sq. distance" "\specialcell{Treated village}" "\specialcell{Control mean\\(Std. dev.)}" "Obs.") stats(`statnames', labels(`varlabels') )
 }
