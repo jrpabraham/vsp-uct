@@ -1,5 +1,3 @@
-// This is the master do-file for producing updated tables for Haushofer & Shapiro (QJE 2016).
-
 version 13.1
 clear all
 clear matrix
@@ -10,95 +8,17 @@ set maxvar 20000
 set more off
 set seed 479316908
 
-********************************************************************************
-******************************* SET PATHS **************************************
-********************************************************************************
-
-cd ..
-
-global root "`c(pwd)'"
+global root "/Users/Justin/Repos/vsp-uct"
 global ado_dir "$root/Ado"
 global data_dir "$root/Data"
 global output_dir "$root/Tables"
 global figs_dir "$root/Figs"
 global do_dir "$root/Do"
 
-********************************************************************************
-******************************* WHICH ANALYSES? ********************************
-********************************************************************************
-
-*** MAIN PAPER ***
-global maketable1_flag = 1 // Baseline Balance for Index Variables
-global maketable2_flag = 1 // Treatment Effects for Index Variables
-global maketable3_flag = 1 // Spillover Effects for Index Variables
-global maketable4_flag = 1 // Detailed Treatment Effects for Psych Wellbeing
-global maketable5_flag = 1 // Detailed Treatment Effects for Consumption
-global maketable6_flag = 1 // Detailed Treatment Effects for Assets and Enterprise
-global maketableA1_flag = 1 // Ex post minimum detectable effect sizes
-
-*** ONLINE APPENDIX ***
-//Section 5: Description of Censusing and Recruitment
-global OASection5_3_flag = 1 //Section 5.3: Unmatched Households
-
-//Section 6: Village Summary Statistics
-//Section 6.1: Village Summary Statistics Section
-//Section 6.2: Comparision of Thatched and Metal Roof Households
-global OASection6_flag = 1
-
-//Section 7: Baseline Balance
-global OASection7_1_flag = 1 // Section 7.1: Baseline Balance on Covariates
-
-//Section 8: Attrition Analysis
-global OASection8_1_flag = 1 // Section 8.1: Evaluating Attrition Level
-global OASection8_2_flag = 1 // Section 8.2: Lee bounds on attrition at endline
-
-//Section 9: Detailed Timing Analysis
-global OASection9_1_flag = 1 // Section 9.1: Transfer and Survey Timeline
-global OASection9_2_flag = 1 // Section 9.2: Timing Summary Statistics
-global OASection9_3_flag = 1 // Section 9.3: Transfer and Survey Timing by Treament Status
-global OASection9_4_flag = 1 // Section 9.4: Correlation of Timing with Baseline Characteristics
-global OASection9_5_flag = 1 // Section 9.5: Controlling for Timing in Treament Effect Calculations
-global OASection9_6_flag = 1 // Section 9.6: Controlling for Timing in Treament Arm Calculations
-global OASection9_7_flag = 1 // Section 9.7: Temporal Evolution of Treatment Effects
-
-//Section 10: Ex-post Power Calculations
-global OASection10_1_flag = 1 // Section 10.1: Ex-post Power Calculations
-
-//Section 12: Evaluating Metal Roof Household Characteristics
-global OASection12_1_flag = 1 // Section 12.1: Baseline Balance on Immutable Characteristics
-global OASection12_2_flag = 1 // Section 12.2: Determinants of Metal Roof Upgrade
-
-//Section 13: Within-village Spillovers
-global OASection13_1_flag = 1 // Section 13.1: Within Village Spillovers
-
-//Section 14: Distributional Effects
-global OASection14_1_flag = 1 // Section 14.1: Quantile Regressions
-
-//Section 15: List Randomization for Alcohol and Tobacco Consumption
-global OASection15_1_flag = 1 // Section 15.1: List Method
-
-//Section 16: Assessing the Validity of Measures of Psychological Wellbeing
-global OASection16_1_flag = 1 // Section 16.1: Predictors of Psychological well-being and Cortisol
-global OASection16_2_flag = 1 // Section 16.2: Cronbach's Alpha for Psychological Scales
-
-//Section 17: M-Pesa Use
-global OASection17_1_flag = 1 // Section 17.1: Remittances and Savings with M-Pesa
-
-//Section 18: Detailed Findings
-global primary_effects_flag = 1 // Primary Treatment Effects
-global baselinecontrols_flag = 1 // Primary Treatment Effects with baseline controls
-global spillover_effects_flag = 1 // Spillover Effects
-global acrossvillage_flag = 1 // Across village treatment effects
-global femalerec_flag = 1 // Detailed effects by recipient gender
-global monthly_flag = 1 // Detailed effects by monthly vs. lump sum
-global large_flag = 1 // Detailed effects by large vs. small transfer
-global respondent_flag = 1 // Detailed effects by respondent gender
-
-//Section 19: Village Level Regressions
-global OASection19_1_flag = 1 // Section 19.1: Village-level effects
+sysdir set PERSONAL "${ado_dir}"
 
 // Set iterations for FWER p-values
-global stepdowniternow = 10000
+global stepdowniternow = 5
 
 // Set PPP Rate
 global ppprate = 0.01601537
@@ -106,6 +26,7 @@ global ppprate = 0.01601537
 ********************************************************************************
 ******************************* DEFINE OUTCOMES ********************************
 ********************************************************************************
+
 global regvars ""
 
 *** MAIN PAPER OUTCOMES  ***
@@ -196,227 +117,338 @@ datasignature confirm, strict
 use "$data_dir/UCT_Village_Collapsed.dta", clear
 datasignature confirm, strict
 
-********************************************************************************
-******************************* WHICH DOFILES? *********************************
-********************************************************************************
+***********************************************************************************
+******************************* Treatment effects *********************************
+***********************************************************************************
+
+global regvars ""indices_ppp""
+
+foreach thisvarlist in $regvars {
+
+*** CREATE EMPTY TABLE ***
+	clear all
+	set obs 10
+	gen x = 1
+	gen y = 1
+
+	forvalues x = 1/6 {
+		eststo col`x': reg x y
+	}
+
+	local varcount = 1
+	local count = 1
+	local countse = `count'+1
+	local varlabels ""
+	local statnames ""
 
 
-*** MAIN PAPER TABLES ***
-// Baseline Balance
-if $maketable1_flag == 1 {
-	global regvars ""indices_ppp""
-	do "$do_dir/UCT_Baseline_Balance.do"
+*** DENOTE HOUSEHOLD VS INDIVIDUAL OUTCOMES ***
+
+	if "`thisvarlist'" == "psyvars" | "`thisvarlist'" == "psyvars_weighted" | "`thisvarlist'" == "psyvars_weighted2" local hhcase = 0
+	else local hhcase = 1
+
+	// weighting will be by the number of observations per household, as this is not necessarily balanced.
+	if "`thisvarlist'" == "indices_weighted" | "`thisvarlist'" == "psyvars_weighted" local thisweighting "[aw=weight]"
+	else if "`thisvarlist'" == "psyvars_weighted2" local thisweighting "[aw=weight2]"
+	else local thisweighting ""
+
+
+*** DATASET ***
+	use "$data_dir/UCT_FINAL_CLEAN.dta", clear
+	cap drop weight weight2
+	gen include = 1
+	drop if purecontrol == 1
+	if `hhcase' == 1 replace include = 0 if maleres == 1
+	drop if endlinedate == .
+	if "`thisvarlist'" == "entvars_cond_ppp" replace include = 0 if ent_nonagbusiness0 ~= 1 // Conditional on Enterprise Ownership
+	xi i.village, pref(fev) // village fixed effects
+	tempfile usedata
+	save `usedata'
+
+
+*** REGRESSIONS FOR EACH ENDLINE OUTCOME ***
+	foreach var in $`thisvarlist' {
+
+		use `usedata', clear
+		local thisvarname "`var'1"
+
+		// The Psych Index is individual level, so it is treated different from other variables in the index list.
+		if "`var'" == "psy_index_z" replace include = 1 if maleres == 1
+
+		*** WEIGHTS FOR OUTCOMES AT THE INDIVIDUAL LEVEL ***
+		bysort surveyid: egen weight = count(`thisvarname') if include == 1
+		bysort village: egen weight2 = count(`thisvarname') if include == 1
+		replace weight2 =  1 / weight2 / weight
+		replace weight = 1 / weight
+
+		*** COLUMN 1: CONTROL MEAN ***
+		sum `thisvarname' if spillover & include == 1
+		estadd local thisstat`count' = string(`r(mean)', "%9.2f") : col1
+		estadd local thisstat`countse' = "(" + string(`r(sd)', "%9.2f") + ")" : col1
+
+		*** COLUMN 2: TREATMENT EFFECT ***
+		areg `thisvarname' treat `var'_full0 `var'_miss0 $thesecontrol if include == 1 `thisweighting', absorb(village) cluster(surveyid)
+		pstar treat
+		estadd local thisstat`count' = "`r(bstar)'": col2
+		estadd local thisstat`countse' = "`r(sestar)'": col2
+
+		*** COLUMN 3: FEMALE RECIPIENT ***
+		areg `thisvarname' treatXfemalerecXmarried treatXsinglerec spillover `var'_full0 `var'_miss0 $thesecontrol if include == 1 `thisweighting', absorb(village) cluster(surveyid)
+		pstar treatXfemalerecXmarried
+		estadd local thisstat`count' = "`r(bstar)'": col3
+		estadd local thisstat`countse' = "`r(sestar)'": col3
+
+		*** COLUMN 4: MONTHLY TRANSFER ***
+		areg `thisvarname' treatXmonthlyXsmall treatXlarge spillover `var'_full0 `var'_miss0 $thesecontrol if include == 1 `thisweighting', absorb(village) cluster(surveyid)
+		pstar treatXmonthlyXsmall
+		estadd local thisstat`count' = "`r(bstar)'": col4
+		estadd local thisstat`countse' = "`r(sestar)'": col4
+
+		*** COLUMN 5: LARGE TRANSFER ***
+		areg `thisvarname' treatXlarge spillover `var'_full0 `var'_miss0 $thesecontrol if include == 1 `thisweighting', absorb(village) cluster(surveyid)
+		pstar treatXlarge
+		estadd local thisstat`count' = "`r(bstar)'": col5
+		estadd local thisstat`countse' = "`r(sestar)'": col5
+
+		*** COLUMN 6: N ***
+		sum `thisvarname' if include == 1
+		local thisN = `r(N)'
+		estadd scalar thisstat`count' = `thisN': col6
+
+		*** STORE VARIABLE LABELS AND ITERATE ***
+
+		local thisvarlabel: variable label `thisvarname'
+		local varlabels "`varlabels' "`thisvarlabel'" " " "
+		local statnames "`statnames' thisstat`count' thisstat`countse'"
+
+		local count = `count' + 2
+		local countse = `count' + 1
+
+	}
+
+	esttab col* using "$output_dir/`thisvarlist'_main.tex", cells(none) booktabs nonum nonotes compress replace mtitle("\specialcell{Control\\mean (SD)}" "\specialcell{Treatment\\effect}" "\specialcell{Female\\recipient}" "\specialcell{Monthly\\transfer}" "\specialcell{Large\\transfer}" "Obs." ) stats(`statnames', labels(`varlabels') )
 }
 
-// Main Treatment Effects
-if $maketable2_flag == 1 {
-	global thesecontrol ""
-	global controllabel ""
-	global regvars ""indices_ppp""
-	do "$do_dir/UCT_Endline_Regs_Main.do"
+***************************************************************************************
+******************************* Heterogeneous effects *********************************
+***************************************************************************************
+
+global regvars ""indices_ppp""
+
+foreach thisvarlist in $regvars {
+
+*** CREATE EMPTY TABLE ***
+	clear all
+	set obs 10
+	gen x = 1
+	gen y = 1
+
+	forvalues x = 1/5 {
+		eststo col`x': reg x y
+	}
+
+	local varcount = 1
+	local count = 1
+	local countse = `count'+1
+	local varlabels ""
+	local statnames ""
+
+
+*** DENOTE HOUSEHOLD VS INDIVIDUAL OUTCOMES ***
+
+	if "`thisvarlist'" == "psyvars" | "`thisvarlist'" == "psyvars_weighted" | "`thisvarlist'" == "psyvars_weighted2" local hhcase = 0
+	else local hhcase = 1
+
+	// weighting will be by the number of observations per household, as this is not necessarily balanced.
+	if "`thisvarlist'" == "indices_weighted" | "`thisvarlist'" == "psyvars_weighted" local thisweighting "[aw=weight]"
+	else if "`thisvarlist'" == "psyvars_weighted2" local thisweighting "[aw=weight2]"
+	else local thisweighting ""
+
+
+*** DATASET ***
+	use "$data_dir/UCT_FINAL_CLEAN.dta", clear
+	cap drop weight weight2
+	gen include = 1
+	drop if purecontrol == 1
+	if `hhcase' == 1 replace include = 0 if maleres == 1
+	drop if endlinedate == .
+	if "`thisvarlist'" == "entvars_cond_ppp" replace include = 0 if ent_nonagbusiness0 ~= 1 // Conditional on Enterprise Ownership
+	xi i.village, pref(fev) // village fixed effects
+
+*** CREATE DIMENSION OF HETEROGENEITY **
+	gen highschool = b_edu > 8 if ~mi(b_edu)
+	la var highschool "Received secondary edu."
+
+	tempfile usedata
+	save `usedata'
+
+*** REGRESSIONS FOR EACH ENDLINE OUTCOME ***
+	foreach var in $`thisvarlist' {
+
+		use `usedata', clear
+		local thisvarname "`var'1"
+
+		// The Psych Index is individual level, so it is treated different from other variables in the index list.
+		if "`var'" == "psy_index_z" replace include = 1 if maleres == 1
+
+		*** WEIGHTS FOR OUTCOMES AT THE INDIVIDUAL LEVEL ***
+		bysort surveyid: egen weight = count(`thisvarname') if include == 1
+		bysort village: egen weight2 = count(`thisvarname') if include == 1
+		replace weight2 =  1 / weight2 / weight
+		replace weight = 1 / weight
+
+		*** COLUMN 1: CONTROL MEAN ***
+		sum `thisvarname' if spillover & include == 1 & ~mi(highschool)
+		estadd local thisstat`count' = string(`r(mean)', "%9.2f") : col1
+		estadd local thisstat`countse' = "(" + string(`r(sd)', "%9.2f") + ")" : col1
+
+		*** COLUMN 2: HET EFFECT ***
+		areg `thisvarname' i.treat##i.highschool `var'_full0 `var'_miss0 $thesecontrol if include == 1 `thisweighting', absorb(village) cluster(surveyid)
+		pstar 1.treat#1.highschool
+		estadd local thisstat`count' = "`r(bstar)'": col2
+		estadd local thisstat`countse' = "`r(sestar)'": col2
+
+		*** COLUMN 3: BASE EFFECT ***
+		pstar 1.treat
+		estadd local thisstat`count' = "`r(bstar)'": col3
+		estadd local thisstat`countse' = "`r(sestar)'": col3
+
+		*** COLUMN 4: COVARIATE ***
+		pstar 1.highschool
+		estadd local thisstat`count' = "`r(bstar)'": col4
+		estadd local thisstat`countse' = "`r(sestar)'": col4
+
+		*** COLUMN 5: N ***
+		sum `thisvarname' if include == 1
+		local thisN = `r(N)'
+		estadd scalar thisstat`count' = `thisN': col5
+
+			local thisvarlabel: variable label `thisvarname'
+			local varlabels "`varlabels' "`thisvarlabel'" " " "
+			local statnames "`statnames' thisstat`count' thisstat`countse'"
+
+			local count = `count' + 2
+			local countse = `count' + 1
+
+	}
+
+	esttab col* using "$output_dir/`thisvarlist'_het_highschool.tex", cells(none) booktabs nonum nonotes compress replace mtitle("\specialcell{Control\\mean (SD)}" "Interaction" "Treatment" "\specialcell{Received\\secondary edu.}" "Obs." ) stats(`statnames', labels(`varlabels') )
 }
 
-// Spillover Effects
-if $maketable3_flag == 1 {
-	global regvars ""indices_ppp""
-	do "$do_dir/UCT_Endline_Regs_Spillover.do"
+global regvars ""indices_ppp""
+
+foreach thisvarlist in $regvars {
+
+*** CREATE EMPTY TABLE ***
+	clear all
+	set obs 10
+	gen x = 1
+	gen y = 1
+
+	forvalues x = 1/5 {
+		eststo col`x': reg x y
+	}
+
+	local varcount = 1
+	local count = 1
+	local countse = `count'+1
+	local varlabels ""
+	local statnames ""
+
+
+*** DENOTE HOUSEHOLD VS INDIVIDUAL OUTCOMES ***
+
+	if "`thisvarlist'" == "psyvars" | "`thisvarlist'" == "psyvars_weighted" | "`thisvarlist'" == "psyvars_weighted2" local hhcase = 0
+	else local hhcase = 1
+
+	// weighting will be by the number of observations per household, as this is not necessarily balanced.
+	if "`thisvarlist'" == "indices_weighted" | "`thisvarlist'" == "psyvars_weighted" local thisweighting "[aw=weight]"
+	else if "`thisvarlist'" == "psyvars_weighted2" local thisweighting "[aw=weight2]"
+	else local thisweighting ""
+
+
+*** DATASET ***
+	use "$data_dir/UCT_FINAL_CLEAN.dta", clear
+	cap drop weight weight2
+	gen include = 1
+	drop if purecontrol == 1
+	if `hhcase' == 1 replace include = 0 if maleres == 1
+	drop if endlinedate == .
+	if "`thisvarlist'" == "entvars_cond_ppp" replace include = 0 if ent_nonagbusiness0 ~= 1 // Conditional on Enterprise Ownership
+	xi i.village, pref(fev) // village fixed effects
+
+	tempfile usedata
+	save `usedata'
+
+*** REGRESSIONS FOR EACH ENDLINE OUTCOME ***
+	foreach var in $`thisvarlist' {
+
+		use `usedata', clear
+		local thisvarname "`var'1"
+
+		// The Psych Index is individual level, so it is treated different from other variables in the index list.
+		if "`var'" == "psy_index_z" replace include = 1 if maleres == 1
+
+		*** WEIGHTS FOR OUTCOMES AT THE INDIVIDUAL LEVEL ***
+		bysort surveyid: egen weight = count(`thisvarname') if include == 1
+		bysort village: egen weight2 = count(`thisvarname') if include == 1
+		replace weight2 =  1 / weight2 / weight
+		replace weight = 1 / weight
+
+		*** COLUMN 1: CONTROL MEAN ***
+		sum `thisvarname' if spillover & include == 1 & ~mi(b_married)
+		estadd local thisstat`count' = string(`r(mean)', "%9.2f") : col1
+		estadd local thisstat`countse' = "(" + string(`r(sd)', "%9.2f") + ")" : col1
+
+		*** COLUMN 2: HET EFFECT ***
+		areg `thisvarname' i.treat##i.b_married `var'_full0 `var'_miss0 $thesecontrol if include == 1 `thisweighting', absorb(village) cluster(surveyid)
+		pstar 1.treat#1.b_married
+		estadd local thisstat`count' = "`r(bstar)'": col2
+		estadd local thisstat`countse' = "`r(sestar)'": col2
+
+		*** COLUMN 3: BASE EFFECT ***
+		pstar 1.treat
+		estadd local thisstat`count' = "`r(bstar)'": col3
+		estadd local thisstat`countse' = "`r(sestar)'": col3
+
+		*** COLUMN 4: COVARIATE ***
+		pstar 1.b_married
+		estadd local thisstat`count' = "`r(bstar)'": col4
+		estadd local thisstat`countse' = "`r(sestar)'": col4
+
+		*** COLUMN 5: N ***
+		sum `thisvarname' if include == 1
+		local thisN = `r(N)'
+		estadd scalar thisstat`count' = `thisN': col5
+
+			local thisvarlabel: variable label `thisvarname'
+			local varlabels "`varlabels' "`thisvarlabel'" " " "
+			local statnames "`statnames' thisstat`count' thisstat`countse'"
+
+			local count = `count' + 2
+			local countse = `count' + 1
+
+	}
+
+	esttab col* using "$output_dir/`thisvarlist'_het_b_married.tex", cells(none) booktabs nonum nonotes compress replace mtitle("\specialcell{Control\\mean (SD)}" "Interaction" "Treatment" "Married" "Obs." ) stats(`statnames', labels(`varlabels') )
 }
 
-// Psychological Wellbeing
-if $maketable4_flag == 1 {
-	global thesecontrol ""
-	global regvars ""psyvars""
-	global controllabel ""
-	do "$do_dir/UCT_Endline_Regs_Main.do"
-}
+/* Notes
 
-// Consumption
-if $maketable5_flag == 1 {
-	global regvars ""cons_final""
-	global thesecontrol ""
-	global controllabel ""
-	do "$do_dir/UCT_Endline_Regs_Main.do"
-}
-
-// Assets and Enterprise
-if $maketable6_flag == 1 {
-	global thesecontrol ""
-	global regvars ""assets_ent_final""
-	global controllabel ""
-	do "$do_dir/UCT_Endline_Regs_Ent+Assets_Main.do"
-}
-
-// Ex post minimum detectable effect sizes
-if $maketableA1_flag == 1 {
-	global regvars ""indices_ppp""
-	do "$do_dir/UCT_PowerCalcs.do"
-}
-
-*** APPENDIX TABLES ***
-
-// Detailed Findings: Main Treatment Arms
-if $primary_effects_flag == 1 {
-	global regvars ""indices_ppp" "indices_weighted" "indicesln" "consvarsnew_ppp_m" "consvarsln_ppp_m" "assetvarsshort_ppp" "assetvarsln_ppp" "entvars_ppp" "entvarsln_ppp" "entvars_cond_ppp" "fsvars" "medvars_ppp" "psyvars" "psyvars_weighted" "psyvars_weighted2" "edvars_ppp" "finvars_ppp" "laborvars" "investvars""
-	global thesecontrol ""
-	global controllabel ""
-	do "$do_dir/UCT_Endline_Regs_Main.do"
-}
-
-// Detailed Findings: Main Treatment Arms with Baseline Controls
-if $baselinecontrols_flag == 1 {
-	global regvars ""indices_ppp" "indices_weighted" "indicesln" "consvarsnew_ppp_m" "consvarsln_ppp_m" "assetvarsshort_ppp" "assetvarsln_ppp" "entvars_ppp" "entvarsln_ppp" "entvars_cond_ppp" "fsvars" "medvars_ppp" "psyvars" "psyvars_weighted" "psyvars_weighted2" "edvars_ppp" "laborvars" "investvars""
-	global thesecontrol "$baselinecontrols"
-	global controllabel "_baseline_controls"
-	do "$do_dir/UCT_Endline_Regs_Main.do"
-	global thesecontrol ""
-	global controllabel ""
-}
-
-// Detailed Findings: Spillover Effects
-if $spillover_effects_flag == 1 {
-	global regvars ""indices_ppp" "indices_weighted" "indicesln" "consvarsnew_ppp_m" "consvarsln_ppp_m" "assetvarsnoroof_ppp" "assetvarsln_ppp" "entvars_ppp" "entvarsln_ppp" "entvars_cond_ppp" "fsvars" "medvars_ppp" "psyvars" "psyvars_weighted" "psyvars_weighted2" "edvars_ppp" "laborvars" "investvars"" // Note that we can't include the indicator for metal roofs as an outcome in some of these analyses
-	do "$do_dir/UCT_Endline_Regs_Spillover.do"
-}
-
-// Detailed Findings: Across Village Comparisions
-if $acrossvillage_flag == 1 {
-	global regvars ""indices_ppp" "indices_weighted" "indicesln" "consvarsnew_ppp_m" "consvarsln_ppp_m" "assetvarsshort_ppp" "assetvarsnoroof_ppp" "assetvarsln_ppp" "entvars_ppp" "entvarsln_ppp" "entvars_cond_ppp" "fsvars" "medvars_ppp" "psyvars" "psyvars_weighted" "psyvars_weighted2" "edvars_ppp" "laborvars" "investvars""
-	do "$do_dir/UCT_Endline_Regs_AcrossVillage.do"
-}
-
-// Detailed Findings: Recipient Gender
-if $femalerec_flag == 1 {
-	global regvars ""indices_ppp" "indices_weighted" "indicesln" "consvarsnew_ppp_m" "consvarsln_ppp_m" "assetvarsshort_ppp" "assetvarsnoroof_ppp" "assetvarsln_ppp" "entvars_ppp" "entvarsln_ppp" "entvars_cond_ppp" "fsvars" "medvars_ppp" "psyvars" "psyvars_weighted" "psyvars_weighted2" "edvars_ppp" "laborvars" "investvars""
-	do "$do_dir/UCT_Endline_Regs_RecGender.do"
-}
-
-// Detailed Findings: Monthly vs. Lump
-if $monthly_flag == 1 {
-	global regvars ""indices_ppp" "indices_weighted" "indicesln" "consvarsnew_ppp_m" "consvarsln_ppp_m" "assetvarsshort_ppp" "assetvarsnoroof_ppp" "assetvarsln_ppp" "entvars_ppp" "entvarsln_ppp" "entvars_cond_ppp" "fsvars" "medvars_ppp" "psyvars" "psyvars_weighted" "psyvars_weighted2" "edvars_ppp" "laborvars" "investvars""
-	do "$do_dir/UCT_Endline_Regs_Monthly.do"
-}
-
-// Detailed Findings: Large vs. Small
-if $large_flag == 1 {
-	global regvars ""indices_ppp" "indices_weighted" "indicesln" "consvarsnew_ppp_m" "consvarsln_ppp_m" "assetvarsshort_ppp" "assetvarsnoroof_ppp" "assetvarsln_ppp" "entvars_ppp" "entvarsln_ppp" "entvars_cond_ppp" "fsvars" "medvars_ppp" "psyvars" "psyvars_weighted" "psyvars_weighted2" "edvars_ppp" "laborvars" "investvars""
-	do "$do_dir/UCT_Endline_Regs_LargeSmall.do"
-}
-
-// Detailed Findings: Respondent Gender
-if $respondent_flag == 1 {
-	global regvars ""psyvars"" // Only individual-level measures
-	do "$do_dir/UCT_Endline_Regs_RespondentGender.do"
-}
-
-//Section 5: Description of Censusing and Recruitment
-//Section 5.3: Unmatched Households
-if $OASection5_3_flag == 1 {
-	global regvars ""baselinecontrols" "indices_ppp""
-	do "$do_dir/UCT_UnmatchedHH_Balance.do" // Balance of these households on baseline characteristics
-}
-
-//Section 6: Village Summary Statistics
-if $OASection6_flag == 1 {
-	do "$do_dir/UCT_Population_Analysis.do" // Total population, % sample, % treated
-	//Section 6.2: Comparision of Thatched and Metal Roof Households
-	do "$do_dir/UCT_MetalRoof_Analysis.do" // Compare baseline consumption with metal roof
-}
-
-//Section 7: Baseline Balance
-//Section 7.1: Baseline Balance on Covariates
-if $OASection7_1_flag == 1 {
-	global regvars ""baselinecontrols""
-	do "$do_dir/UCT_Baseline_Balance.do"
-}
-
-//Section 8: Attrition Analysis
-//Section 8.1: Evaluating Attrition Level
-if $OASection8_1_flag == 1 {
-	global regvars ""indices_ppp""
-	do "$do_dir/UCT_Attrition_Analysis.do"
-}
-//Section 8.2: Lee bounds on attrition at endline
-if $OASection8_2_flag == 1 {
-	global regvars ""indices_ppp""
-	do "$do_dir/UCT_LeeBounds.do"
-}
-
-//Section 9: Detailed Timing Analysis
-//Section 9.1: Transfer and Survey Timeline
-if $OASection9_1_flag == 1 do "$do_dir/UCT_Timing_Graph.do"
-
-//Section 9.2: Timing Summary Statistics
-if $OASection9_2_flag == 1 do "$do_dir/UCT_Timing_Summary_Stats.do"
-
-//Section 9.3: Transfer and Survey Timing by Treament Status
-if $OASection9_3_flag == 1 do "$do_dir/UCT_Timing_TreatmentStatus.do"
-
-//Section 9.4: Correlation of Timing with Baseline Characteristics
-if $OASection9_4_flag == 1 do "$do_dir/UCT_Timing_BaselineVars.do"
-
-//Section 9.5: Controlling for Timing in Treament Effect Calculations
-if $OASection9_5_flag == 1 {
-	global regvars ""indices_ppp""
-	global thesecontrol "$timecontrols"
-	global controllabel "_timing_controls"
-	do "$do_dir/UCT_Endline_Regs_Main.do"
-}
-//Section 9.6: Controlling for Timing in Treament Arm Calculations
-if $OASection9_6_flag == 1 do "$do_dir/UCT_Timing_TreatmentArm.do"
-
-//Section 9.7: Temporal Evolution of Treatment Effects
-if $OASection9_7_flag == 1 {
-	global regvars ""indices_ppp""
-	do "$do_dir/UCT_Temporal_Evolution_Table.do"
-	do "$do_dir/UCT_Temporal_Evolution_Figure.do"
-}
-
-//Section 10: Ex-post Power Calculations
-if $OASection10_1_flag == 1 { // Section 10.1: Ex-post Power Calculations
-	global regvars ""indices_ppp" "psyvars" "consvarsnew_ppp_m" "assetvarsshort_ppp" "entvars_ppp""
-	do "$do_dir/UCT_PowerCalcs.do"
-}
-
-//Section 12: Evaluating Metal Roof Household Characteristics
-//Section 12.1: Baseline Balance on Immutable Characteristics
-if $OASection12_1_flag == 1 {
-	global immutable_baseline "b_age b_married b_children b_hhsize b_edu" // set immutable characteristics to test
-	do "$do_dir/UCT_PC_Baseline.do"
-}
-//Section 12.2: Determinants of Metal Roof Upgrade
-if $OASection12_2_flag == 1 do "$do_dir/UCT_RoofUpgrade_Predictors.do"
-
-//Section 13: Within-village Spillovers
-//Section 13.1: Within Village Spillovers
-if $OASection13_1_flag == 1 {
-	global regvars ""indices_ppp""
-	do "$do_dir/UCT_InVillage_Spillover.do"
-}
-
-//Section 14: Distributional Effects
-//Section 14.1: Quantile Regressions
-if $OASection14_1_flag == 1 {
-	global regvars ""indices_ppp""
-	do "$do_dir/UCT_Quantile_Regs.do"
-}
-
-//Section 15: List Randomization for Alcohol and Tobacco Consumption
-//Section 15.1: List Method
-if $OASection15_1_flag == 1 do "$do_dir/UCT_Endline_ListMethod.do"
-
-//Section 16: Assessing the Validity of Measures of Psychological Wellbeing
-//Section 16.1: Predictors of Psychological well-being and Cortisol
-if $OASection16_1_flag == 1 do "$do_dir/UCT_Psych_Correlations.do"
-//Section 16.2: Cronbach's Alpha for Psychological Scales
-if $OASection16_2_flag == 1 do "$do_dir/UCT_Psych_Alpha.do"
-
-//Section 17: M-Pesa Use
-//Section 17.1: Remittances and Savings with M-Pesa
-if $OASection17_1_flag == 1 do "$do_dir/UCT_MPESA_Use.do"
-
-//Section 19: Village Level Regressions
-//Section 19.1: Village-level effects
-if $OASection19_1_flag == 1 {
-	do "$do_dir/UCT_Village_Analysis.do"
-
-}
+NB: more spillovers with households that look the same?
+JH: more SUTVA violations with households that look the same?
+JA: interact eq 10 with dummy for looking the same
+    dummy calculated as deviations from the mean?
+    using what characteristics?
+    can't do this for control group because no baseline
+Anyway
+    Find treatment village mean of the demovar
+    Calculate some distance from spillover household demovar
+    Dichotomize or leave as is
+    Can do treatment effects for other treatment arms
+Potential dimensions of similarity
+    the dependent variable*
+    all dependent variables
+    whatever is in the baseline balance table
+    everything
+    some ML criteria

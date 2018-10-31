@@ -53,27 +53,13 @@
 
 \begin{document}
 
-\section*{Very Short Paper Proposal: Unconditional Cash Transfers}
+The specification used to identify spillover effects is
 
-\noindent \textit{Justin Abraham, Nathaniel Bechhofer, and Minki Kim} \\
+\[ y_{h,v} = \beta_0 + \beta_1 S_v + \varepsilon_{h,v} \]
 
-\subsection*{Summary}
+estimated for the spillover and pure control households where $S_v$ is an indicator for a spillover household.
 
-    Our project will address one of the following research questions.
-
-    \begin{enumerate}
-
-        \item How do reduced form effects of cash transfers change over time?
-        \item How do effects depend on proximity to treated units?
-        \item Do firms/households anticipate the receipt of cash transfers by adjust prices?
-        \item How does enumerator/participant gender affect self-reported data?
-
-    \end{enumerate}
-
-\subsection*{Data}
-
-    This analysis will use data from a randomized controlled trial of an unconditional cash transfer (UCT) program conducted in rural Kenya \parencite{haushofer_short-term_2016}. Between 2011 and 2013, GiveDirectly provided UCTs to poor households\footnote{At the time eligibility for the program was determined by living in a house with a thatched roof.} in rural Kenya amounting to USD PPP 404 and USD PPP 1525. The experimental design involved the random assignment of 60 villages to participate in the program and 60 in the control group \texit{and} the random assignment of eligible households within treatment villages to receive a cash transfer. Among households receiving the transfer, the trial also randomized whether the recipient was the head male or female, whether the transfer was paid out regularly or in a lump sum, and the size of the transfer. The data is comprised of a baseline survey collected before the intervention ($N=1008$), an endline survey a few weeks after the end of the intervention ($N=940$), and a long-term follow up 3 years after the endline survey ($N=901$). Surveys collected for sample households information on asset ownership, consumption, education, physical health, subjective well-being, business activity, labor supply, political behavior, investment decisions, and cortisol levels. The baseline and endline survey also collected village-level data on prices, wages, and violent conflict.
-
+\[ y_{h,v} = \beta_0 + \beta_1 S_v + \beta_2 R_{h,v} + \beta_3 R_{h,v} \times S_v + \nu{h,v} \]
 
 \printbibliography
 
