@@ -1,0 +1,86 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1.5in]{geometry}
+\usepackage{amsmath, amssymb, amsthm, mathrsfs}
+\usepackage{lmodern, inconsolata}
+\usepackage{bbm}
+\usepackage{fancyhdr}
+\usepackage{caption, graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{booktabs, threeparttable, adjustbox, tabularx, longtable}
+\usepackage{hyperref}
+\usepackage{soul}
+
+\newcommand{\inv}[1]{#1^{-1}}
+\newcommand{\iid}{\text{i.i.d.}}
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}
+\newcommand{\asconv}{\xrightarrow{a.s.}}
+\newcommand{\pconv}{\xrightarrow{p}}
+\newcommand{\dconv}{\xrightarrow{d}}
+\newcommand{\msconv}{\xrightarrow{m.s.}}
+\newcommand{\liminfty}{\lim_{n \to \infty}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand{\lhood}{\mathcal{L}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{claim}{Claim}
+
+\let\oldforall\forall
+\let\forall\undefined
+\DeclareMathOperator{\forall}{\oldforall}
+\DeclareMathOperator{\ev}{E}
+\DeclareMathOperator{\var}{Var}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  columns=fixed,
+  fontadjust=true,
+  basewidth=0.5em
+}
+
+\newcommand{\specialcell}[2][c]{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\usepackage[backend=bibtex, style=authortitle, citestyle=authoryear-icomp, url=false]{biblatex}
+\addbibresource{citations.bib}
+
+\linespread{1}
+\pagestyle{fancy}
+\lhead{Very Short Paper Proposal}
+\rhead{Abraham, Bechhofer, Kim}
+
+\begin{document}
+
+\section{Background}
+
+Between 2011 and 2013, GiveDirectly sent unconditional cash transfers to randomly chosen households in western Kenya equivalent to approximately two years of per-capita expenditure. 
+Haushofer and Shapiro document the data collection, and main results, which allow for rich inference due to two-stage randomization at both village and household levels. 
+
+
+\section{Question of interest}
+
+Haushofer and Shapiro demonstrate that villages where villagers were given transfers saw even those who did not receive transfers obtain spillover benefits, as they can compare non-treated villagers in the treatment villages to those in the control villages.
+We allow for these spillovers to vary by demographics, as we might expect that villagers similar to recipients of the cash transfers would enjoy more spillover benefits.
+
+This can be tested by seeing how the spillovers vary by demographics within the subset of villagers who were in treatment villages but were not themselves treated. 
+Ideally, we would model outcomes $y$ for each respondent $n$ in villages $v$ as 
+\begin{equation*}
+y_n = \beta_0 + \beta_1 S_v + \beta_2 (\omega_n - \bar{\omega}_v)^2 + \beta_3 S_v \times  (\omega_n - \bar{\omega}_v)^2
+\end{equation*}
+where $S_v$ is a dummy for whether the village is a treatment village.
+As we are exclusively looking at spillovers, we exclude respondents who received cash.
+The test would then be of the hypothesis $\beta_3 = 0$.
+
+However, lacking baseline characteristics for the control villages, we can still estimate \textit{differences} in spillover effects by exclusively looking at non-treated villagers in the treatment villages. 
+This does come with the limitation that we cannot rule out demographic differences in trends that would occur regardless of whether villagers lived in villages that were treated.
+We attempt to overcome this by exploiting the heterogeneity across treated villages in the demographics of those treated. 
+If spillovers are heterogenous because those more demographically similar to the treated villagers get more spillovers, then variation in the demographics of the treated villagers will predict variation in the heterogeneity of spillovers.
+
+
+\printbibliography
+
+\end{document}
