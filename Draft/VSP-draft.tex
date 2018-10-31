@@ -57,8 +57,8 @@
 
 \section{Background}
 
-Between 2011 and 2013, GiveDirectly sent unconditional cash transfers to randomly chosen households in western Kenya equivalent to approximately two years of per-capita expenditure. 
-Haushofer and Shapiro document the data collection, and main results, which allow for rich inference due to two-stage randomization at both village and household levels. 
+Between 2011 and 2013, GiveDirectly sent unconditional cash transfers to randomly chosen households in western Kenya equivalent to approximately two years of per-capita expenditure.
+Haushofer and Shapiro document the data collection, and main results, which allow for rich inference due to two-stage randomization at both village and household levels.
 
 
 \section{Question of interest}
@@ -66,8 +66,8 @@ Haushofer and Shapiro document the data collection, and main results, which allo
 Haushofer and Shapiro demonstrate that villages where villagers were given transfers saw even those who did not receive transfers obtain spillover benefits, as they can compare non-treated villagers in the treatment villages to those in the control villages.
 We allow for these spillovers to vary by demographics, as we might expect that villagers similar to recipients of the cash transfers would enjoy more spillover benefits.
 
-This can be tested by seeing how the spillovers vary by demographics within the subset of villagers who were in treatment villages but were not themselves treated. 
-Ideally, we would model outcomes $y$ for each respondent $n$ in villages $v$ as 
+This can be tested by seeing how the spillovers vary by demographics within the subset of villagers who were in treatment villages but were not themselves treated.
+Ideally, we would model outcomes $y$ for each respondent $n$ in villages $v$ as
 \begin{equation*}
 y_n = \beta_0 + \beta_1 S_v + \beta_2 (\omega_n - \bar{\omega}_v)^2 + \beta_3 S_v \times  (\omega_n - \bar{\omega}_v)^2
 \end{equation*}
@@ -75,10 +75,38 @@ where $S_v$ is a dummy for whether the village is a treatment village.
 As we are exclusively looking at spillovers, we exclude respondents who received cash.
 The test would then be of the hypothesis $\beta_3 = 0$.
 
-However, lacking baseline characteristics for the control villages, we can still estimate \textit{differences} in spillover effects by exclusively looking at non-treated villagers in the treatment villages. 
+However, lacking baseline characteristics for the control villages, we can still estimate \textit{differences} in spillover effects by exclusively looking at non-treated villagers in the treatment villages.
 This does come with the limitation that we cannot rule out demographic differences in trends that would occur regardless of whether villagers lived in villages that were treated.
-We attempt to overcome this by exploiting the heterogeneity across treated villages in the demographics of those treated. 
+We attempt to overcome this by exploiting the heterogeneity across treated villages in the demographics of those treated.
 If spillovers are heterogenous because those more demographically similar to the treated villagers get more spillovers, then variation in the demographics of the treated villagers will predict variation in the heterogeneity of spillovers.
+
+\section{Results}
+
+\begin{table}
+\centering
+\caption{Spillover effects by squared distance from village means}
+\maxsizebox*{\textwidth}{\textheight}{
+\begin{threeparttable}
+\input{../Tables/indices_ppp_sqdev.tex}
+\begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
+The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the household level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
+\end{tablenotes}
+\end{threeparttable}
+}
+\end{table}
+
+\begin{table}
+\centering
+\caption{Spillover effects by absolute distance from village means}
+\maxsizebox*{\textwidth}{\textheight}{
+\begin{threeparttable}
+\input{../Tables/indices_ppp_absdev.tex}
+\begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
+The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the household level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
+\end{tablenotes}
+\end{threeparttable}
+}
+\end{table}
 
 
 \printbibliography
