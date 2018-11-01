@@ -12,6 +12,7 @@
 \usepackage{booktabs, threeparttable, adjustbox, tabularx, longtable}
 \usepackage{hyperref}
 \usepackage{soul}
+\usepackage{float}
 
 \newcommand{\inv}[1]{#1^{-1}}
 \newcommand{\iid}{\text{i.i.d.}}
@@ -65,7 +66,7 @@
 
 	\begin{abstract}
 
-		Blah
+		In an unconditional cash transfer (UCT) program conducted in rural Kenya, \textcite{haushofer_short-term_2016} found out that villages where villagers were given transfers saw even those who did not receive transfers obtain spillover benefits, as they can compare non-treated villagers in the treatment villages to those in the control villages. We test if the within-village spillover effects from unconditional cash transfer vary by demographic characteristics. Our findings suggest that even though the spillovers are on average beneficial to those who did not receive the transfer, those who are demographically dissimilar to average villagers might have experienced negative spillovers, both in pecuniary and non-pecuniary measures. 
 
  	\end{abstract}
 
@@ -75,29 +76,47 @@
 
     \textcite{haushofer_short-term_2016} demonstrate that villages where villagers were given transfers saw even those who did not receive transfers obtain spillover benefits, as they can compare non-treated villagers in the treatment villages to those in the control villages. We allow for these spillovers to vary by demographics, as we might expect that villagers similar to recipients of the cash transfers would enjoy more spillover benefits.
 
-    This can be tested by seeing how the spillovers vary by demographics within the subset of villagers who were in treatment villages but were not themselves treated. Ideally, we would model outcomes $y$ for each respondent $n$ in villages $v$ as
-
-    \begin{equation*}
-    y_n = \beta_0 + \beta_1 S_v + \beta_2 D^\text{Sq.}_n + \beta_3 S_v \times  D^\text{Sq.}_n + \varepsilon_n
-    \end{equation*}
-
-    where $S_v$ is a dummy for whether the village is a treatment village and $D^\text{Sq.}_n = \frac{(\omega_n - \bar{\omega}_v)^2}{\text{SD}}$ is the squared deviation of each household's baseline outcome $\omega_n$ from the village mean. As we are exclusively looking at spillovers, we exclude respondents who received cash. The test would then be of the hypothesis $\beta_3 = 0$. We estimate a second specification where we include absolute deviations $D^\text{Abs.}_n = \frac{|\omega_n - \bar{\omega}_v|}{\text{SD}}$ as the interactive term.
-
-    \begin{equation*}
-    y_n = \beta_0 + \beta_1 S_v + \beta_2 D^\text{Abs.}_n + \beta_3 S_v \times D^\text{Abs.}_n + \varepsilon_n
-    \end{equation*}
-
-    However, lacking baseline characteristics for the control villages, we can still estimate \textit{differences} in spillover effects by exclusively looking at non-treated villagers in the treatment villages and imputing deviations from the endline mean for the control group. This does come with the limitation that we cannot rule out demographic differences in trends that would occur regardless of whether villagers lived in villages that were treated. We attempt to overcome this by exploiting the heterogeneity across treated villages in the demographics of those treated. If spillovers are heterogenous because those more demographically similar to the treated villagers get more spillovers, then variation in the demographics of the treated villagers will predict variation in the heterogeneity of spillovers.
-
+   
 \section{Data}
 
-    This analysis will use data from a randomized controlled trial of an unconditional cash transfer (UCT) program conducted in rural Kenya \parencite{haushofer_short-term_2016}. Between 2011 and 2013, GiveDirectly provided UCTs to poor households\footnote{At the time eligibility for the program was determined by living in a house with a thatched roof.} in rural Kenya amounting to USD PPP 404 and USD PPP 1525. The experimental design involved the random assignment of 60 villages to participate in the program and 60 in the control group \texit{and} the random assignment of eligible households within treatment villages to receive a cash transfer. Among households receiving the transfer, the trial also randomized whether the recipient was the head male or female, whether the transfer was paid out regularly or in a lump sum, and the size of the transfer. The data is comprised of a baseline survey collected before the intervention ($N=1008$), an endline survey a few weeks after the end of the intervention ($N=940$), and a long-term follow up 3 years after the endline survey ($N=901$). Surveys collected for sample households information on asset ownership, consumption, education, physical health, subjective well-being, business activity, labor supply, political behavior, investment decisions, and cortisol levels. The baseline and endline survey also collected village-level data on prices, wages, and violent conflict.
+    This analysis will use data from a randomized controlled trial of an unconditional cash transfer (UCT) program conducted in rural Kenya \parencite{haushofer_short-term_2016}. Between 2011 and 2013, GiveDirectly provided UCTs to poor households\footnote{At the time eligibility for the program was determined by living in a house with a thatched roof.} in rural Kenya amounting to USD PPP 404 and USD PPP 1525. The experimental design involved the random assignment of 60 villages to participate in the program and 60 in the control group \textit{and} the random assignment of eligible households within treatment villages to receive a cash transfer. Among households receiving the transfer, the trial also randomized whether the recipient was the head male or female, whether the transfer was paid out regularly or in a lump sum, and the size of the transfer. The data is comprised of a baseline survey collected before the intervention ($N=1008$), an endline survey a few weeks after the end of the intervention ($N=940$), and a long-term follow up 3 years after the endline survey ($N=901$). Surveys collected for sample households information on asset ownership, consumption, education, physical health, subjective well-being, business activity, labor supply, political behavior, investment decisions, and cortisol levels. The baseline and endline survey also collected village-level data on prices, wages, and violent conflict.
 
 \section{Empirical Strategy}
 
+    Heterogeneity in the spillover effects can be tested by seeing how the spillovers vary by demographics within the subset of villagers who were in treatment villages but were not themselves treated. Ideally, we would model outcomes $y$ for each respondent $n$ in villages $v$ as
+    
+    \begin{equation*}
+    y_n = \beta_0 + \beta_1 S_v + \beta_2 D^\text{Sq.}_n + \beta_3 S_v \times  D^\text{Sq.}_n + \varepsilon_n
+    \end{equation*}
+    
+    where $S_v$ is a dummy for whether the village is a treatment village and $D^\text{Sq.}_n = \frac{(\omega_n - \bar{\omega}_v)^2}{\text{SD}}$ is the squared deviation of each household's baseline outcome $\omega_n$ from the village mean. As we are exclusively looking at spillovers, we exclude respondents who received cash. The test would then be of the hypothesis $\beta_3 = 0$. We estimate a second specification where we include absolute deviations $D^\text{Abs.}_n = \frac{|\omega_n - \bar{\omega}_v|}{\text{SD}}$ as the interactive term.
+    
+    \begin{equation*}
+    y_n = \beta_0 + \beta_1 S_v + \beta_2 D^\text{Abs.}_n + \beta_3 S_v \times D^\text{Abs.}_n + \varepsilon_n
+    \end{equation*}
+    
+    However, lacking baseline characteristics for the control villages, we can still estimate \textit{differences} in spillover effects by exclusively looking at non-treated villagers in the treatment villages and imputing deviations from the endline mean for the control group. This does come with the limitation that we cannot rule out demographic differences in trends that would occur regardless of whether villagers lived in villages that were treated. We attempt to overcome this by exploiting the heterogeneity across treated villages in the demographics of those treated. If spillovers are heterogenous because those more demographically similar to the treated villagers get more spillovers, then variation in the demographics of the treated villagers will predict variation in the heterogeneity of spillovers.
 \section{Results}
 
-\begin{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Spillover effects by absolute distance from village means}
+	\maxsizebox*{\textwidth}{\textheight}{
+		\begin{threeparttable}
+			\input{../Tables/indices_ppp_absdev.tex}
+			\begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
+				The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
+			\end{tablenotes}
+		\end{threeparttable}
+	}
+\end{table}
+
+Table 1 shows the heterogenous spillover effects on various dependent variables, using the absolute deviation as a measure of demographic distance. In the first column, we report the effects of one standard deviation increase in absolute distance  $D_n^{Abs.}$ on the spillover effects. For all dependent variables, we found the evidence of negative relations between the demographic distance and the spillover effects. The signs of the coefficients of the interaction terms are opposite to those of the spillover dummy. \\
+
+For all five dependent variables with statistically significant baseline spillover effects, the effects of one standard deviation increase in the absolute distance were more than enough to completely offset the baseline spillover effects. For instance, a household which is one standard deviation away from the mean demographic characteristic of the village it belongs to experienced a \textit{negative} spillover effects on total revenue, which amount to -19.5 USD. We found no significant heterogenous spillover effects on food security, health, and education indices.  
+
+\begin{table}[H]
 \centering
 \caption{Spillover effects by squared distance from village means}
 \maxsizebox*{\textwidth}{\textheight}{
@@ -110,18 +129,11 @@ The unit of observation is the household for all outcome variables except for th
 }
 \end{table}
 
-\begin{table}
-\centering
-\caption{Spillover effects by absolute distance from village means}
-\maxsizebox*{\textwidth}{\textheight}{
-\begin{threeparttable}
-\input{../Tables/indices_ppp_absdev.tex}
-\begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
-The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
-\end{tablenotes}
-\end{threeparttable}
-}
-\end{table}
+In Table 2 we report the results from the same regressions, this time with the squared distances $D_n^{Sq.}$ as a measure of demographic distance. Once again, the results strongly indicate that households dissimilar from an average villager experienced weaker spillover effects. The magnitude of the coefficients of the interaction terms are smaller, because the squared distance measure weights distances far away from the mean more heavily. 
+
+\section{Conclusion}
+  We tested if within-village spillover effects from unconditional cash transfer vary by demographic characteristics. In an unconditional cash transfer (UCT) program conducted in rural Kenya, \textcite{haushofer_short-term_2016} found out that villages where villagers were given transfers saw even those who did not receive transfers obtain spillover benefits, as they can compare non-treated villagers in the treatment villages to those in the control villages. Our findings suggest that even though the spillovers are on average positive, those who are demographically dissimilar to other villagers might have experienced negative spillovers, both in pecuniary and non-pecuniary measures. 
+
 
 \newpage
 
