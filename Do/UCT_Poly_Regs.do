@@ -71,6 +71,8 @@ foreach thisvarlist in $regvars {
 	merge 1:m village using `usedata', update nogen
 
 	foreach var in $`thisvarlist' {
+		gen `var'_sqdev = ((`var'_vmean - `var'0)^2) / `var'_vsd if spillover == 1
+		replace `var'_sqdev = ((`var'_vmean - `var'1)^2) / `var'_vsd if spillover == 0
 		gen `var'_absdev = abs(`var'_vmean - `var'0) / `var'_vsd if spillover == 1
 		replace `var'_absdev = abs(`var'_vmean - `var'1) / `var'_vsd if spillover == 0
 	}
@@ -94,19 +96,19 @@ foreach thisvarlist in $regvars {
 		replace weight2 =  1 / weight2 / weight
 		replace weight = 1 / weight
 
-		*** COLUMN 1: INTERACTION ***
-		reg `thisvarname' i.spillover##c.`var'_absdev if include == 1 `thisweighting', cluster(village)
+		*** COLUMN 1: ABSOLUTE ***
+		reg `thisvarname' i.spillover##c.`var'_sqdev i.spillover##c.`var'_absdev if include == 1 `thisweighting', cluster(village)
 		pstar 1.spillover#c.`var'_absdev, prec(3)
 		estadd local thisstat`count' = "`r(bstar)'": col1
 		estadd local thisstat`countse' = "`r(sestar)'": col1
 
-		*** COLUMN 2: SPILLOVER ***
-		pstar 1.spillover, prec(3)
+		*** COLUMN 2: SQUARED ***
+		pstar 1.spillover#c.`var'_sqdev, prec(3)
 		estadd local thisstat`count' = "`r(bstar)'": col2
 		estadd local thisstat`countse' = "`r(sestar)'": col2
 
-		*** COLUMN 3: DEVIATION ***
-		pstar `var'_absdev, prec(3)
+		*** COLUMN 3: SPILLOVERS ***
+		pstar 1.spillover, prec(3)
 		estadd local thisstat`count' = "`r(bstar)'": col3
 		estadd local thisstat`countse' = "`r(sestar)'": col3
 
@@ -131,5 +133,5 @@ foreach thisvarlist in $regvars {
 		local countse = `count' + 1
 	}
 
-	esttab col* using "$output_dir/`thisvarlist'_absdev.tex",  cells(none) booktabs nonum nonotes compress replace mtitle("Interaction" "\specialcell{Treated village}" "Abs. distance" "\specialcell{Control mean\\(Std. dev.)}" "Obs.") stats(`statnames', labels(`varlabels') )
+	esttab col* using "$output_dir/`thisvarlist'_poly.tex",  cells(none) booktabs nonum nonotes compress replace mtitle("\specialcell{Treated $\times$\\ Abs. distance}" "\specialcell{Treated $\times$\\ Sq. distance}" "\specialcell{Treated village}" "\specialcell{Control mean\\(Std. dev.)}" "Obs.") stats(`statnames', labels(`varlabels') )
 }

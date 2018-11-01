@@ -15,10 +15,8 @@ global output_dir "$root/Tables"
 global figs_dir "$root/Figs"
 global do_dir "$root/Do"
 
-sysdir set PERSONAL "${ado_dir}"
-
-// Set iterations for FWER p-values
-global stepdowniternow = 5
+adopath + "$ado_dir"
+cap cd "$root_dir"
 
 // Set PPP Rate
 global ppprate = 0.01601537
@@ -27,9 +25,8 @@ global ppprate = 0.01601537
 ******************************* DEFINE OUTCOMES ********************************
 ********************************************************************************
 
-global regvars ""
-
 *** MAIN PAPER OUTCOMES  ***
+
 //Indexes: Main Paper Tables 1, 2 and 3
 global indices_ppp "asset_total_ppp cons_nondurable_ppp ent_total_rev_ppp fs_hhfoodindexnew med_hh_healthindex ed_index psy_index_z ih_overall_index_z"
 global indices_weighted "asset_total_ppp cons_nondurable_ppp ent_total_rev_ppp fs_hhfoodindexnew med_hh_healthindex ed_index psy_index_z ih_overall_index_z"
@@ -86,20 +83,15 @@ global laborvars "hh_propsalaried hh_propcasual hh_workactivities labor_primary 
 global investvars "durable_investment nondurable_investment"
 
 *** CONTROL VARIABLES ***
+
 // Main Effect Controls
 global baselinecontrols "b_age b_married b_edu b_children b_hhsize asset_total_ppp0 cons_total_ppp0 ent_wagelabor0 ent_ownfarm0 ent_business0 ent_nonagbusiness0"
 
 // Controls for Spillover analysis
 global spillovercontrols "b_age b_married b_children b_hhsize b_edu"
 
-// Controls for Unmatched HH analysis
-global unmatched_vars "b_age b_married b_edu b_children b_hhsize ent_wagelabor0 ent_ownfarm0 ent_nonagbusiness0"
-
-// Timing Controls
-global timecontrols "endline_timing"
-
-// MPESA ANALYSIS
-global mpesavars "given_mpesa amount_given_mpesa received_mpesa amount_received_mpesa net_mpesa saved_mpesa amount_saved_mpesa"
+// Controls with baseline levels of primary outcomes
+global allcontrols "asset_total_ppp0 cons_nondurable_ppp0 ent_total_rev_ppp0 fs_hhfoodindexnew0 med_hh_healthindex0 ed_index0 psy_index_z0 ih_overall_index_z0 b_age b_married b_edu b_children b_hhsize asset_total_ppp0 cons_total_ppp0 ent_wagelabor0 ent_ownfarm0 ent_business0 ent_nonagbusiness0"
 
 ********************************************************************************
 ********************************* CHECK DATA ***********************************
@@ -118,13 +110,28 @@ use "$data_dir/UCT_Village_Collapsed.dta", clear
 datasignature confirm, strict
 
 ***********************************************************************************
-******************************* Spillover effects *********************************
+******************************* Estimation ****************************************
 ***********************************************************************************
 
+// Balance tables
+
 global regvars ""indices_ppp""
+do "$do_dir/UCT_Baseline_Balance.do"
+
+// Interaction with distances based on baseline outcome
+
+global regvars ""indices_ppp""
+
 do "$do_dir/UCT_SqDev_Regs.do"
 do "$do_dir/UCT_AbsDev_Regs.do"
+do "$do_dir/UCT_Poly_Regs.do"
 
+// Interaction with Mahalanobis distance
+
+global regvars ""indices_ppp""
+global distvars ""allcontrols""
+
+// do "$do_dir/UCT_Dist_Regs.do"
 
 /* Notes
 

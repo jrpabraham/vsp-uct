@@ -100,13 +100,13 @@ foreach thisvarlist in $regvars {
 		estadd local thisstat`count' = "`r(bstar)'": col1
 		estadd local thisstat`countse' = "`r(sestar)'": col1
 
-		*** COLUMN 2: DEVIATION ***
-		pstar `var'_sqdev, prec(3)
+		*** COLUMN 2: SPILLOVER ***
+		pstar 1.spillover, prec(3)
 		estadd local thisstat`count' = "`r(bstar)'": col2
 		estadd local thisstat`countse' = "`r(sestar)'": col2
 
-		*** COLUMN 3: SPILLOVER ***
-		pstar 1.spillover, prec(3)
+		*** COLUMN 3: DEVIATION ***
+		pstar `var'_sqdev, prec(3)
 		estadd local thisstat`count' = "`r(bstar)'": col3
 		estadd local thisstat`countse' = "`r(sestar)'": col3
 
@@ -131,5 +131,5 @@ foreach thisvarlist in $regvars {
 		local countse = `count' + 1
 	}
 
-	esttab col* using "$output_dir/`thisvarlist'_sqdev.tex",  cells(none) booktabs nonum nonotes compress replace mtitle("Interaction" "Sq. distance" "\specialcell{Treated village}" "\specialcell{Control mean\\(Std. dev.)}" "Obs.") stats(`statnames', labels(`varlabels') )
+	esttab col* using "$output_dir/`thisvarlist'_sqdev.tex",  cells(none) booktabs nonum nonotes compress replace mtitle("Interaction" "\specialcell{Treated village}" "Sq. distance" "\specialcell{Control mean\\(Std. dev.)}" "Obs.") stats(`statnames', labels(`varlabels') )
 }
