@@ -86,7 +86,7 @@
     y_i = \beta_0 + \beta_1 S_v + \beta_2 D^\text{Sq.}_i + \beta_3 S_v \times  D^\text{Sq.}_i + \varepsilon_i
     \end{equation*}
 
-    where $S_v$ is a dummy for whether the village is a treatment village and $D^\text{Sq.}_i = \frac{(\omega_i - \bar{\omega}_v)^2}{\text{SD}}$ is the squared deviation of each household's baseline outcome $\omega_i$ from the village mean. As we are exclusively looking at spillovers, we exclude respondents who received cash. The test would then be of the hypothesis $\beta_3 = 0$. We estimate a second specification where we include absolute deviations $D^\text{Abs.}_i = \frac{|\omega_i - \bar{\omega}_v|}{\text{SD}}$ as the interactive term.
+    where $S_v$ is a dummy for whether the village is a treatment village and $D^\text{Sq.}_i = \frac{(\omega_i - \bar{\omega}_v)^2}{\text{SD}}$ is the squared deviation of each household's baseline outcome $\omega_i$ from the village mean. As we are exclusively looking at spillovers, we exclude respondents who received cash. The test would then be of the hypothesis $\beta_3 = 0$. We estimate a second specification where we include absolute deviations $D^\text{Abs.}_i = \frac{|\omega_i - \bar{\omega}_v|}{\text{SD}}$ to construct the interaction term.
 
     \begin{equation*}
     y_i = \beta_0 + \beta_1 S_v + \beta_2 D^\text{Abs.}_i + \beta_3 S_v \times D^\text{Abs.}_i + \varepsilon_i
@@ -110,7 +110,7 @@
     }
     \end{table}
 
-    Table 1 reports balance across treatment groups on baseline characteristics of households. As in the original study, we fail to reject a joint test of balance between transfer and spillover households across all of the primary outcomes. Table 2 shows the heterogenous spillover effects on various dependent variables, using the absolute deviation as a measure of demographic distance. In the first column, we report the effects of one standard deviation increase in absolute distance  $D_i^{Abs.}$ on the spillover effects. For all dependent variables, we found the evidence of negative relations between the demographic distance and the spillover effects. The signs of the coefficients of the interaction terms are opposite to those of the spillover dummy. \\
+    Table 1 reports balance across treatment groups on baseline characteristics of households. As in the original study, we fail to reject a joint test of balance between transfer and spillover households across all of the primary outcomes. Table 2 shows the heterogenous spillover effects on various dependent variables, using the absolute deviation as a measure of demographic distance. In the first column, we report the effects of one standard deviation increase in absolute distance  $D_i^{Abs.}$ on the spillover effects. For all dependent variables, we found evidence of negative relations between demographic distance and spillover effects. The signs of the coefficients for the interaction terms are the opposite of those for the spillover dummy terms. \\
 
     \begin{table}[H]
     \centering
@@ -125,7 +125,7 @@
     }
     \end{table}
 
-    For all five dependent variables with statistically significant baseline spillover effects, the effects of one standard deviation increase in the absolute distance were more than enough to completely offset the baseline spillover effects. For instance, a household which is one standard deviation away from the mean demographic characteristic of the village it belongs to experienced a \textit{negative} spillover effects on total revenue, which amount to -19.5 USD. We found no significant heterogenous spillover effects on food security, health, and education indices.
+    For all five dependent variables with statistically significant baseline spillover effects, the effects of one standard deviation increase in the absolute distance were more than enough to completely offset the baseline spillover effects. For instance, households one standard deviation away from the mean demographic characteristic of the village they belong to experienced (on average) a \textit{negative} spillover effects on total revenue, which amount to -19.5 USD. We found no significant heterogenous spillover effects on food security, health, and education indices.
 
     In Table 3 we report the results from the same regressions, this time with the squared distances $D_i^{Sq.}$ as a measure of demographic distance. Once again, the results strongly indicate that households dissimilar from an average villager experienced weaker spillover effects. The magnitude of the coefficients of the interaction terms are smaller, because the squared distance measure weights distances far away from the mean more heavily.
 
