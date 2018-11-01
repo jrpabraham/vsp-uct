@@ -88,7 +88,7 @@ save `usedata'
 		local count = `count' + 2
 		local countse = `count' + 1
 		local ++varcount
-	
+
 	}
 
 
@@ -153,5 +153,5 @@ save `usedata'
 	local varlabels "`varlabels' "\midrule Joint test (\emph{p}-value)" "
 
 
-esttab col* using "$output_dir/baseline_`thisvarlist'_maintable.tex",  cells(none) booktabs nonotes compress replace alignment(SSSSSc) mtitle("\specialcell{Control\\mean (SD)}" "\specialcell{Treatment\\effect}" "\specialcell{Female\\recipient}" "\specialcell{Monthly\\transfer}" "\specialcell{Large\\transfer}" "N" ) stats(`statnames', labels(`varlabels') )
+esttab col* using "$output_dir/baseline_`thisvarlist'_maintable.tex", cells(none) booktabs nonum nonotes compress replace mtitle("\specialcell{Control\\mean (SD)}" "\specialcell{Treatment\\effect}" "\specialcell{Female\\recipient}" "\specialcell{Monthly\\transfer}" "\specialcell{Large\\transfer}" "Obs." ) stats(`statnames', labels(`varlabels') )
 }
