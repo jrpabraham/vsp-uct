@@ -31,7 +31,7 @@ foreach thisvarlist in $regvars {
 *** DATASET ***
 	use "$data_dir/UCT_FINAL_CLEAN.dta", clear
 	cap drop weight weight2
-	drop if treat
+	// drop if treat
 	drop if endlinedate == .
 	gen include = 1
 	if `hhcase' == 1 replace include = 0 if maleres
@@ -97,7 +97,7 @@ foreach thisvarlist in $regvars {
 		replace weight = 1 / weight
 
 		*** COLUMN 1: ABSOLUTE ***
-		reg `thisvarname' i.spillover##c.`var'_sqdev i.spillover##c.`var'_absdev if include == 1 `thisweighting', cluster(village)
+		reg `thisvarname' i.spillover##c.`var'_sqdev i.spillover##c.`var'_absdev if include == 1 & treat == 0 `thisweighting', cluster(village)
 		pstar 1.spillover#c.`var'_absdev, prec(3)
 		estadd local thisstat`count' = "`r(bstar)'": col1
 		estadd local thisstat`countse' = "`r(sestar)'": col1
