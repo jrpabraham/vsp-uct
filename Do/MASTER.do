@@ -110,28 +110,79 @@ use "$data_dir/UCT_Village_Collapsed.dta", clear
 datasignature confirm, strict
 
 ***********************************************************************************
+******************************* Distance ******************************************
+***********************************************************************************
+
+use "$data_dir/UCT_FINAL_CLEAN.dta", clear
+
+replace asset_total_ppp1 =  asset_total_ppp1 - asset_valroof_ppp1 if asset_niceroof1 == 1 // Exclude metal roof value from comparisons with metal roof households
+replace asset_lntotal_ppp1 = asset_lntotal_noroof_ppp1 if asset_niceroof1 == 1
+
+// Construct distance measure //
+
+global regvars "$indices_ppp"
+
+tempfile tempdata
+save `tempdata'
+
+loc meanvarlist ""
+loc sdvarlist ""
+
+foreach yvar in $regvars {
+
+	loc meanvarlist "`meanvarlist' `yvar'_vmean = `yvar'0"
+	loc sdvarlist "`sdvarlist' `yvar'_vsd = `yvar'0"
+
+}
+
+collapse (mean) `meanvarlist' (sd) `sdvarlist', by(village purecontrol)
+keep if purecontrol == 0
+merge 1:m village using `tempdata', nogen
+
+save `tempdata', replace
+
+loc meanvarlist ""
+loc sdvarlist ""
+
+foreach yvar in $regvars {
+
+	loc meanvarlist "`meanvarlist' `yvar'_vmean = `yvar'1"
+	loc sdvarlist "`sdvarlist' `yvar'_vsd = `yvar'1"
+
+}
+
+collapse (mean) `meanvarlist' (sd) `sdvarlist', by(village purecontrol)
+keep if purecontrol == 1
+merge 1:m village using `tempdata', update nogen
+
+foreach yvar in $regvars {
+
+    gen `yvar'_sqdev = ((`yvar'_vmean - `yvar'0)^2) / `yvar'_vsd if purecontrol == 0
+    replace `yvar'_sqdev = ((`yvar'_vmean - `yvar'1)^2) / `yvar'_vsd if purecontrol == 1
+
+    gen `yvar'_absdev = abs(`yvar'_vmean - `yvar'0) / `yvar'_vsd if purecontrol == 0
+    replace `yvar'_absdev = abs(`yvar'_vmean - `yvar'1) / `yvar'_vsd if purecontrol == 1
+
+}
+
+saveold "$data_dir/UCT_FINAL_VSP.dta", replace
+
+***********************************************************************************
 ******************************* Estimation ****************************************
 ***********************************************************************************
 
 // Balance tables
 
-global regvars ""indices_ppp""
-do "$do_dir/UCT_Baseline_Balance.do"
-
 // Interaction with distances based on baseline outcome
 
-global regvars ""indices_ppp""
+global regvars "$indices_ppp"
+global reglabel "indices_ppp"
 
 do "$do_dir/UCT_SqDev_Regs.do"
 do "$do_dir/UCT_AbsDev_Regs.do"
 do "$do_dir/UCT_Poly_Regs.do"
 
 // Interaction with Mahalanobis distance
-
-global regvars ""indices_ppp""
-global distvars ""allcontrols""
-
-// do "$do_dir/UCT_Dist_Regs.do"
 
 /* Notes
 
