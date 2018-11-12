@@ -78,37 +78,59 @@
 
     This analysis will use data from a randomized controlled trial of an unconditional cash transfer (UCT) program conducted in rural Kenya \parencite{haushofer_short-term_2016}. Between 2011 and 2013, GiveDirectly provided UCTs to poor households\footnote{At the time eligibility for the program was determined by living in a house with a thatched roof.} in rural Kenya amounting to USD PPP 404 and USD PPP 1525. The experimental design involved the random assignment of 60 villages to participate in the program and 60 in the control group \textit{and} the random assignment of eligible households within treatment villages to receive a cash transfer. Among households receiving the transfer, the trial also randomized whether the recipient was the head male or female, whether the transfer was paid out regularly or in a lump sum, and the size of the transfer. The data is comprised of a baseline survey collected before the intervention ($N=1008$), an endline survey a few weeks after the end of the intervention ($N=940$), and a long-term follow up 3 years after the endline survey ($N=901$). Surveys collected for sample households information on asset ownership, consumption, education, physical health, subjective well-being, business activity, labor supply, political behavior, investment decisions, and cortisol levels. The baseline and endline survey also collected village-level data on prices, wages, and violent conflict.
 
+    \subsection{Selection among the pure control villages}
+
+        Althought we lack baseline characteristics for the control villages, we can still estimate \textit{differences} in spillover effects by exclusively looking at non-treated villagers in the treatment villages and imputing deviations from the endline mean for the control group. This does come with the limitation that we cannot rule out demographic differences in trends that would occur regardless of whether villagers lived in villages that were treated. We attempt to overcome this by exploiting the heterogeneity across treated villages in the demographics of those treated. If spillovers are heterogenous because those more demographically similar to the treated villagers get more spillovers, then variation in the demographics of the treated villagers will predict variation in the heterogeneity of spillovers.
+
+
 \section{Empirical Strategy}
 
-    Heterogeneity in the spillover effects can be tested by seeing how the spillovers vary by demographics within the subset of villagers who were in treatment villages but were not themselves treated. Ideally, we would model outcomes $y$ for each respondent $i$ in villages $v$ as
+    \subsection{Linear spillover effects}
 
-    \begin{equation*}
-    y_i = \beta_0 + \beta_1 S_v + \beta_2 D^\text{Sq.}_i + \beta_3 S_v \times  D^\text{Sq.}_i + \varepsilon_i
-    \end{equation*}
+        To test whether similarity to treated households results in differential spillover effects, we estimate a parsimonious model that interacts a measure of demographic distance $D_{i,v}$ with an indicator for living in a treatment village $S_v$.
 
-    where $S_v$ is a dummy for whether the village is a treatment village and $D^\text{Sq.}_i = \frac{(\omega_i - \bar{\omega}_v)^2}{\text{SD}}$ is the squared deviation of each household's baseline outcome $\omega_i$ from the village mean. As we are exclusively looking at spillovers, we exclude respondents who received cash. The test would then be of the hypothesis $\beta_3 = 0$. We estimate a second specification where we include absolute deviations $D^\text{Abs.}_i = \frac{|\omega_i - \bar{\omega}_v|}{\text{SD}}$ to construct the interaction term.
+            \begin{equation} \label{eq:interaction}
+            Y_{i,v} = \beta_0 + \beta_1 S_v + \beta_2 D_{i,v} + \beta_3 S_v \times  D_{i,v} + \varepsilon_{i,v}
+            \end{equation}
 
-    \begin{equation*}
-    y_i = \beta_0 + \beta_1 S_v + \beta_2 D^\text{Abs.}_i + \beta_3 S_v \times D^\text{Abs.}_i + \varepsilon_i
-    \end{equation*}
+        $Y_{i,v}$ is the outcome variable of interest with households indexed by $i$ in village $v$.\footnote{For comparability with the original experiment, we estimate Eq. \ref{eq:interaction} using the same set of outcome variables: the value of non-land assets, non-durable expenditures, monthly household revenue, and indices of food security, health, education, subjective well-being, and female empowerment. We estimate the eight equations simultaneously to allow for cross-correlations and to be able to conduct joint tests.} $D_{i,v}$ is a measure of distance of each household from characteristics of treatment households. $\varepsilon_{i,v}$ is the idiosyncratic error term. Standard errors are clustered at the village level. We test the null hypothesis $\beta_3 = 0$: that the spillover effect does not depend on distance.
 
-    However, lacking baseline characteristics for the control villages, we can still estimate \textit{differences} in spillover effects by exclusively looking at non-treated villagers in the treatment villages and imputing deviations from the endline mean for the control group. This does come with the limitation that we cannot rule out demographic differences in trends that would occur regardless of whether villagers lived in villages that were treated. We attempt to overcome this by exploiting the heterogeneity across treated villages in the demographics of those treated. If spillovers are heterogenous because those more demographically similar to the treated villagers get more spillovers, then variation in the demographics of the treated villagers will predict variation in the heterogeneity of spillovers.
+        Our first measure of demographic distance uses the pre-treatment levels of each respective outcome and denoted by $Y_{i,v,t=0}$. We calculate a normalized absolute distance from the village-specific average of the treated households.
 
+            \begin{equation} \label{eq:sqdev}
+            D^\text{Abs.}_{i,v} = \frac{|Y_{i,v,t=0} - \bar Y_{v,t=0}|}{\text{SD}_v}
+            \end{equation}
+
+        Additionally, we calculate squared deviations from village averages.
+
+            \begin{equation} \label{eq:sqdev}
+            D^\text{Sq.}_{i,v} = \frac{(Y_{i,v,t=0} - \bar Y_{v,t=0})^2}{\text{SD}_v}
+            \end{equation}
+
+        These specifications assume that only the baseline level of the outcomes moderates the spillover effects of the cash transfers. To allow a more general model that lets effects differ along multiple observables, we estimate Eq. \ref{eq:interaction} with a Mahalanobis measure $D^\text{M.}_{i,v}$. Let $\mathbf X_i$ denote the vector of household-level observables and $\mathbf{\bar X}$ the village-specific sample means of treated households. $\mathbf{\hat S}_v$ is the village-specific covariance. We include the pre-treatment levels of each outcome variable as well as a set of covariates listed in \textcite{haushofer_short-term_2016}.
+
+            \begin{equation} \label{eq:mdist}
+            D^\text{M.}_{i,v} = [(\mathbf X_i - \mathbf{\bar X})' \mathbf{\hat S}^{-1}_v (\mathbf X_i - \mathbf{\bar X})]^{-\frac{1}{2}}
+            \end{equation}
+
+    \subsection{Non-linear spillover effects}
+
+        We further generalize the model by allowing for non-linearities in the distance term.
 
 \section{Results}
-
-    \begin{table}[H]
-    \centering
-    \caption{Balance on baseline characteristics}
-    \maxsizebox*{\textwidth}{\textheight}{
-    \begin{threeparttable}
-    \input{../Tables/baseline_indices_ppp_maintable.tex}
-    \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
-    The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
-    \end{tablenotes}
-    \end{threeparttable}
-    }
-    \end{table}
+    %
+    % \begin{table}[H]
+    % \centering
+    % \caption{Balance on baseline characteristics}
+    % \maxsizebox*{\textwidth}{\textheight}{
+    % \begin{threeparttable}
+    % \input{../Tables/baseline_indices_ppp_maintable.tex}
+    % \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
+    % The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
+    % \end{tablenotes}
+    % \end{threeparttable}
+    % }
+    % \end{table}
 
     Table 1 reports balance across treatment groups on baseline characteristics of households. As in the original study, we fail to reject a joint test of balance between transfer and spillover households across all of the primary outcomes. Table 2 shows the heterogenous spillover effects on various dependent variables, using the absolute deviation as a measure of demographic distance. In the first column, we report the effects of one standard deviation increase in absolute distance  $D_i^{Abs.}$ on the spillover effects. For all dependent variables, we found evidence of negative relations between demographic distance and spillover effects. The signs of the coefficients for the interaction terms are the opposite of those for the spillover dummy terms. \\
 
