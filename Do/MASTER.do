@@ -184,6 +184,12 @@ do "$do_dir/UCT_Poly_Regs.do"
 
 // Interaction with Mahalanobis distance
 
+***********************************************************************************
+******************************* Visualization *************************************
+***********************************************************************************
+
+
+
 /* Notes
 
 NB: more spillovers with households that look the same?
