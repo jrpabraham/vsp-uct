@@ -67,9 +67,7 @@
 
  	\end{abstract}
 
-\newpage
-
-\section{Question of interest}
+\section{Introduction}
 
     \textcite{haushofer_short-term_2016} demonstrate that villages where villagers were given transfers saw even those who did not receive transfers obtain spillover benefits, as they can compare non-treated villagers in the treatment villages to those in the control villages. We allow for these spillovers to vary by demographics, as we might expect that villagers similar to recipients of the cash transfers would enjoy more spillover benefits.
 
@@ -96,7 +94,7 @@
 
         Our first measure of demographic distance uses the pre-treatment levels of each respective outcome and denoted by $Y_{i,v,t=0}$. We calculate a normalized absolute distance from the village-specific average of the treated households.\footnote{As discussed in the previous section, we impute baseline characteristics of the pure control households from the endline survey and argue that they remain comparable to the spillover households on average.}
 
-            \begin{equation} \label{eq:sqdev}
+            \begin{equation} \label{eq:absdev}
             D_{i,v} = \frac{|Y_{i,v,t=0} - \bar Y_{v,t=0}|}{\text{SD}_v}
             \end{equation}
 
@@ -179,6 +177,14 @@
     \end{threeparttable}
     }
     \end{table}
+
+    \begin{figure}[ht]
+    \centering
+    \caption{Quadratic spillover effects by demographic distance}
+    \includegraphics[height=0.85\textheight]{../Figs/indices_ppp_margins.pdf}
+    \label{fig:margins}
+    \caption*{\footnotesize \emph{Notes:} }
+    \end{figure}
 
 \section{Conclusion}
 

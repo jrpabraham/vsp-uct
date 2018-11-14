@@ -33,7 +33,7 @@ foreach yvar in $regvars {
 	if "`yvar'" == "psy_index_z" replace include = 1 if maleres == 1
 	else replace include = 0 if maleres == 1
 
-	qui reg `yvar'1 i.spillover##c.`yvar'_sqdev i.spillover##c.`yvar'_absdev if include == 1 & treat == 0 & ~mi(endlinedate)
+	qui reg `yvar'1 i.spillover##c.`yvar'_absdev##c.`yvar'_absdev if include == 1 & treat == 0 & ~mi(endlinedate)
 	est store e_`yvar'
 	loc surlist "`surlist' e_`yvar'"
 
@@ -61,7 +61,7 @@ forval i = 1/3 {
 foreach yvar in $regvars {
 
 	loc H1 = "[e_`yvar'_mean]1.spillover#c.`yvar'_absdev"
-	loc H2 = "[e_`yvar'_mean]1.spillover#c.`yvar'_sqdev"
+	loc H2 = "[e_`yvar'_mean]1.spillover#c.`yvar'_absdev#c.`yvar'_absdev"
 	loc H3 = "[e_`yvar'_mean]1.spillover"
 
  	est restore sur

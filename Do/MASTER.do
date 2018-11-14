@@ -161,7 +161,7 @@ foreach yvar in $regvars {
     replace `yvar'_sqdev = ((`yvar'1 - `yvar'_vmean)^2) / `yvar'_vsd if purecontrol == 1
 
     gen `yvar'_absdev = abs(`yvar'0 - `yvar'_vmean) / `yvar'_vsd if purecontrol == 0
-    replace `yvar'_absdev = (`yvar'1 - `yvar'_vmean) / `yvar'_vsd if purecontrol == 1
+    replace `yvar'_absdev = abs(`yvar'1 - `yvar'_vmean) / `yvar'_vsd if purecontrol == 1
 
 }
 
@@ -191,7 +191,10 @@ do "$do_dir/UCT_Poly_Regs.do"
 ******************************* Visualization *************************************
 ***********************************************************************************
 
+global regvars "$indices_ppp"
+global reglabel "indices_ppp"
 
+do "$do_dir/UCT_Dist_Plot.do"
 
 /* Notes
 
