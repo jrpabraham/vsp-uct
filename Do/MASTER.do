@@ -157,11 +157,11 @@ merge 1:m village using `tempdata', update nogen
 
 foreach yvar in $regvars {
 
-    gen `yvar'_sqdev = ((`yvar'_vmean - `yvar'0)^2) / `yvar'_vsd if purecontrol == 0
-    replace `yvar'_sqdev = ((`yvar'_vmean - `yvar'1)^2) / `yvar'_vsd if purecontrol == 1
+    gen `yvar'_sqdev = ((`yvar'0 - `yvar'_vmean)^2) / `yvar'_vsd if purecontrol == 0
+    replace `yvar'_sqdev = ((`yvar'1 - `yvar'_vmean)^2) / `yvar'_vsd if purecontrol == 1
 
-    gen `yvar'_absdev = abs(`yvar'_vmean - `yvar'0) / `yvar'_vsd if purecontrol == 0
-    replace `yvar'_absdev = abs(`yvar'_vmean - `yvar'1) / `yvar'_vsd if purecontrol == 1
+    gen `yvar'_absdev = abs(`yvar'0 - `yvar'_vmean) / `yvar'_vsd if purecontrol == 0
+    replace `yvar'_absdev = (`yvar'1 - `yvar'_vmean) / `yvar'_vsd if purecontrol == 1
 
 }
 
@@ -172,6 +172,9 @@ saveold "$data_dir/UCT_FINAL_VSP.dta", replace
 ***********************************************************************************
 
 // Balance tables
+
+global immutable_baseline "b_age b_married b_children b_hhsize b_edu"
+do "$do_dir/UCT_PC_Baseline.do"
 
 // Interaction with distances based on baseline outcome
 

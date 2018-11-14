@@ -82,11 +82,7 @@
 
     \subsection{Selection among the pure control villages}
 
-        A potential concern for the estimation strategy we lay out in this section is that in the original experiment the thatched-roof selection criterion was applied to the pure control villages one year after it was applied to households in the treated villages. Thus, pure control households that upgraded their roofs during this one-year span would have been excluded from the sample, allowing for the possibility of selection bias.
-
-        We follow the strategy outlined in \textcite{haushofer_short-term_2016} to address this issue by testing whether pure control households differ from the originally sampled households on a set of immutable characteristics.\footnote{These variables are age of the primary respondent, marital status of the primary respondent, highest level of education, the number of children excluding those born between baseline and endline, and the household size at baseline.}\footnote{We refer readers to \textcite{haushofer_short-term_2016} for additional robustness checks including prediction of roof upgrades, treatment effect bounds, and resurveys of the pure control group.}
-
-        Another concern with the data is that it lacks baseline characteristics for the control villages. Nevertheless, we can still estimate \textit{differences} in spillover effects by exclusively looking at non-treated villagers in the treatment villages and imputing deviations from the endline mean for the control group. This does come with the limitation that we cannot rule out demographic differences in trends that would occur regardless of whether villagers lived in villages that were treated.
+        A potential concern for the estimation strategy we lay out in this section is that in the original experiment the thatched-roof selection criterion was applied to the pure control villages one year after it was applied to households in the treated villages. Thus, pure control households that upgraded their roofs during this one-year span would have been excluded from the sample, allowing for the possibility of selection bias. We follow the strategy outlined in \textcite{haushofer_short-term_2016} to address this issue by testing whether pure control households differ from the originally sampled households on a set of immutable characteristics--those variables that remain constant during the time between samples.\footnote{These variables are age of the primary respondent, marital status of the primary respondent, highest level of education, the number of children excluding those born between baseline and endline, and the household size at baseline.}\footnote{We refer readers to \textcite{haushofer_short-term_2016} for additional robustness checks including prediction of roof upgrades, treatment effect bounds, and resurveys of the pure control group.} Another concern with the data is that it lacks baseline characteristics for the control villages. Nevertheless, we can still estimate \textit{differences} in spillover effects by exclusively looking at non-treated villagers in the treatment villages and imputing deviations from the endline mean for the control group. This does come with the limitation that we cannot rule out demographic differences in trends that would occur regardless of whether villagers lived in villages that were treated.
 
     \subsection{Linear spillover effects}
 
@@ -96,18 +92,18 @@
             Y_{i,v} = \beta_0 + \beta_1 S_v + \beta_2 D_{i,v} + \beta_3 S_v \times  D_{i,v} + \varepsilon_{i,v}
             \end{equation}
 
-        $Y_{i,v}$ is the outcome variable of interest with households indexed by $i$ in village $v$.\footnote{For comparability with the original experiment, we estimate Eq. \ref{eq:interaction} using the same set of outcome variables: the value of non-land assets, non-durable expenditures, monthly household revenue, and indices of food security, health, education, subjective well-being, and female empowerment. We estimate the eight equations simultaneously to allow for cross-correlations and to be able to conduct joint tests.} $D_{i,v}$ is a measure of distance of each household from characteristics of treatment households. $\varepsilon_{i,v}$ is the idiosyncratic error term. Standard errors are clustered at the village level. We test the null hypothesis $\beta_3 = 0$: that the spillover effect does not depend on distance.
+        $Y_{i,v}$ is the outcome variable of interest with households indexed by $i$ in village $v$.\footnote{For comparability with the original experiment, we estimate Eq. \ref{eq:interaction} using the same set of outcome variables: the value of non-land assets, non-durable expenditures, monthly household revenue, and indices of food security, health, education, subjective well-being, and female empowerment. We estimate the eight equations simultaneously to allow for cross-correlations and to be able to conduct joint tests.} $D_{i,v}$ is a measure of distance of each household from characteristics of treatment households. $\varepsilon_{i,v}$ is the idiosyncratic error term. Standard errors are clustered at the village level. Since village treatment status was randomly assigned, $\beta_1 + \beta_3 D_{i,v}$ can be interpreted as the marginal effect on $Y_{i,v}$ of living in a village in which some households receive cash transfers. We test the null hypothesis $\beta_3 = 0$: that the spillover effect does not depend on distance.
 
-        Our first measure of demographic distance uses the pre-treatment levels of each respective outcome and denoted by $Y_{i,v,t=0}$. We calculate a normalized absolute distance from the village-specific average of the treated households.\footnote{As discussed in the previous section, we impute baseline characteristics of the pure control households using their pre-treatment levels.}
+        Our first measure of demographic distance uses the pre-treatment levels of each respective outcome and denoted by $Y_{i,v,t=0}$. We calculate a normalized absolute distance from the village-specific average of the treated households.\footnote{As discussed in the previous section, we impute baseline characteristics of the pure control households from the endline survey and argue that they remain comparable to the spillover households on average.}
 
             \begin{equation} \label{eq:sqdev}
-            D^\text{Abs.}_{i,v} = \frac{|Y_{i,v,t=0} - \bar Y_{v,t=0}|}{\text{SD}_v}
+            D_{i,v} = \frac{|Y_{i,v,t=0} - \bar Y_{v,t=0}|}{\text{SD}_v}
             \end{equation}
 
         Additionally, we calculate squared deviations from village averages.
 
             \begin{equation} \label{eq:sqdev}
-            D^\text{Sq.}_{i,v} = \frac{(Y_{i,v,t=0} - \bar Y_{v,t=0})^2}{\text{SD}_v}
+            D^2_{i,v} = \frac{(Y_{i,v,t=0} - \bar Y_{v,t=0})^2}{\text{SD}_v}
             \end{equation}
 
         These specifications assume that only the baseline level of the outcomes moderates the spillover effects of the cash transfers. To allow a more general model that lets effects differ along multiple observables, we estimate Eq. \ref{eq:interaction} with a Mahalanobis measure $D^\text{M.}_{i,v}$. Let $\mathbf X_i$ denote the vector of household-level observables and $\mathbf{\bar X}$ the village-specific sample means of treated households. $\mathbf{\hat S}_v$ is the village-specific covariance. We include the pre-treatment levels of each outcome variable as well as a set of covariates listed in \textcite{haushofer_short-term_2016}.
@@ -121,25 +117,27 @@
         We further generalize the model by allowing for non-linearities in the distance term.
 
 \section{Results}
-    %
-    % \begin{table}[H]
-    % \centering
-    % \caption{Balance on baseline characteristics}
-    % \maxsizebox*{\textwidth}{\textheight}{
-    % \begin{threeparttable}
-    % \input{../Tables/baseline_indices_ppp_maintable.tex}
-    % \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
-    % The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
-    % \end{tablenotes}
-    % \end{threeparttable}
-    % }
-    % \end{table}
 
-    Table 1 reports balance across treatment groups on baseline characteristics of households. As in the original study, we fail to reject a joint test of balance between transfer and spillover households across all of the primary outcomes. Table 2 shows the heterogenous spillover effects on various dependent variables, using the absolute deviation as a measure of demographic distance. In the first column, we report the effects of one standard deviation increase in absolute distance  $D_i^{Abs.}$ on the spillover effects. For all dependent variables, we found evidence of negative relations between demographic distance and spillover effects. The signs of the coefficients for the interaction terms are the opposite of those for the spillover dummy terms. \\
+    \begin{table}[H]
+    \centering
+    \caption{Balance on immutable characteristics}
+    \label{tab:balance}
+    \maxsizebox*{\textwidth}{\textheight}{
+    \begin{threeparttable}
+    \input{../Tables/PC_Baseline_Balance_Immutables.tex}
+    \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}: Estimates of the mean of immutable baseline characteristics calculated among households in treatment
+    villages and control villages. Baseline characteristics are listed on the left. Column (1) reports the mean (std. dev.) taken among households in treatment villages.  Column (2) reports the mean (std. dev.) taken among households in control villages. Column (3) reports the difference in means calculated using an OLS regression of the baseline characteristic on an indicator variable for living in a treatment village. Village-level clustered standard errors are reported in parentheses. The last row reports a test of joint significance after estimation using SUR. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
+    \end{tablenotes}
+    \end{threeparttable}
+    }
+    \end{table}
+
+    Table \ref{tab:balance} reports balance across treatment and control villages on immutable characteristics of households. As in the original study, we fail to reject a joint test of balance between transfer and control villages across all variables at the 5 percent level. Table \ref{tab:absdev} shows the heterogenous spillover effects on various dependent variables, using the absolute deviation as a measure of demographic distance. In the first column, we report the effects of one standard deviation increase in absolute distance  $D_i^{Abs.}$ on the spillover effects. For all dependent variables, we found evidence of negative relations between demographic distance and spillover effects. The signs of the coefficients for the interaction terms are the opposite of those for the spillover dummy terms. \\
 
     \begin{table}[H]
     \centering
     \caption{Spillover effects by absolute distance from village means}
+    \label{tab:absdev}
     \maxsizebox*{\textwidth}{\textheight}{
     \begin{threeparttable}
     \input{../Tables/indices_ppp_absdev.tex}
@@ -152,11 +150,12 @@
 
     For all five dependent variables with statistically significant baseline spillover effects, the effects of one standard deviation increase in the absolute distance were more than enough to completely offset the baseline spillover effects. For instance, households one standard deviation away from the mean demographic characteristic of the village they belong to experienced (on average) a \textit{negative} spillover effects on total revenue, which amount to -19.5 USD. We found no significant heterogenous spillover effects on food security, health, and education indices.
 
-    In Table 3 we report the results from the same regressions, this time with the squared distances $D_i^{Sq.}$ as a measure of demographic distance. Once again, the results strongly indicate that households dissimilar from an average villager experienced weaker spillover effects. The magnitude of the coefficients of the interaction terms are smaller, because the squared distance measure weights distances far away from the mean more heavily.
+    In Table \ref{tab:sqdev} we report the results from the same regressions, this time with the squared distances $D_i^2$ as a measure of demographic distance. Once again, the results strongly indicate that households dissimilar from an average villager experienced weaker spillover effects. The magnitude of the coefficients of the interaction terms are smaller, because the squared distance measure weights distances far away from the mean more heavily.
 
     \begin{table}[H]
     \centering
     \caption{Spillover effects by squared distance from village means}
+    \label{tab:sqdev}
     \maxsizebox*{\textwidth}{\textheight}{
     \begin{threeparttable}
     \input{../Tables/indices_ppp_sqdev.tex}
@@ -170,6 +169,7 @@
     \begin{table}[H]
     \centering
     \caption{Quadratic spillover effects}
+    \label{tab:quadratic}
     \maxsizebox*{\textwidth}{\textheight}{
     \begin{threeparttable}
     \input{../Tables/indices_ppp_poly.tex}
