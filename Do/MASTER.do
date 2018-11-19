@@ -33,10 +33,11 @@ timer on 1
 global indices_ppp "asset_total_ppp cons_nondurable_ppp ent_total_rev_ppp fs_hhfoodindexnew med_hh_healthindex ed_index psy_index_z ih_overall_index_z"
 global indices_log "asset_ihstotal_ppp cons_ihsnondurable_ppp ent_ihstotal_rev_ppp fs_hhfoodindexnew med_hh_healthindex ed_index psy_index_z ih_overall_index_z"
 global fsvars "fs_adskipm_often fs_adwholed_often fs_chskipm_often fs_chwholed_often fs_hhcheapf_often fs_hhfriendf_often fs_foodcred_often fs_wildf_often fs_hhbeg_often fs_2meals fs_eatcont fs_meat fs_enoughtom fs_sleephun fs_selfprotein fs_hhfracprotein fs_childfracprotein  fs_childfoodindexnew fs_hhfoodindexnew"
+global ihvars ""
 
-// Controls with baseline levels of primary outcomes
+// Controls as specified in Haushofer/Shapiro
 
-global allcontrols "asset_total_ppp0 cons_nondurable_ppp0 ent_total_rev_ppp0 fs_hhfoodindexnew0 med_hh_healthindex0 ed_index0 psy_index_z0 ih_overall_index_z0 b_age b_married b_edu b_children b_hhsize ent_wagelabor0 ent_ownfarm0 ent_business0 ent_nonagbusiness0"
+global controlvars "b_age b_married b_edu b_children b_hhsize ent_wagelabor0 ent_ownfarm0 ent_business0 ent_nonagbusiness0"
 
 ********************************************************************************
 ********************************* CHECK DATA ***********************************
@@ -126,8 +127,6 @@ foreach yvar in $regvars {
 
 }
 
-// Mahalanobis distance //
-
 saveold "$data_dir/UCT_FINAL_VSP.dta", replace
 
 ***********************************************************************************
@@ -156,6 +155,11 @@ do "$do_dir/UCT_AbsDev_Regs.do"
 do "$do_dir/UCT_Poly_Regs.do"
 
 // Interaction with Mahalanobis distance
+
+global regvars "$indices_ppp"
+global reglabel "indices_ppp"
+
+do "$do_dir/UCT_Vector_Regs.do"
 
 ***********************************************************************************
 ******************************* Visualization *************************************
