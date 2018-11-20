@@ -23,6 +23,7 @@ loc surlist ""
 
 /* Calculate distance */
 
+qui ta village
 
 /* SUR */
 
