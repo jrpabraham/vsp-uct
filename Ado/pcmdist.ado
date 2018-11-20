@@ -1,7 +1,7 @@
 program define pcmdist, rclass
 syntax varlist(min=1) [if] [in], gen(string) [by(string)]
 
-qui {
+cap noi {
 
 	tempvar touse
 	mark `touse' `if' `in'

@@ -23,11 +23,20 @@ loc surlist ""
 
 /* Calculate distance */
 
-qui ta village
+use "$data_dir/UCT_FINAL_VSP.dta", clear
+
+loc basevars ""
+
+foreach var in $regvars {
+
+	replace `var'0 = `var'1 if purecontrol == 1 // impute baseline values from endline for pure control
+	loc basevars "`basevars' `var'0"
+
+}
+
+pcmdist $controlvars `basevars', gen(mdistance) by(village)
 
 /* SUR */
-
-use "$data_dir/UCT_FINAL_VSP.dta", clear
 
 gen include = 1
 replace include = 0 if maleres == 1
@@ -37,7 +46,7 @@ foreach yvar in $regvars {
 	if "`yvar'" == "psy_index_z" replace include = 1 if maleres == 1
 	else replace include = 0 if maleres == 1
 
-	qui reg `yvar'1 i.spillover##c.`yvar'_absdev if include == 1 & treat == 0 & ~mi(endlinedate)
+	qui reg `yvar'1 i.spillover##c.mdistance if include == 1 & treat == 0 & ~mi(endlinedate)
 	est store e_`yvar'
 	loc surlist "`surlist' e_`yvar'"
 
@@ -64,9 +73,9 @@ forval i = 1/3 {
 
 foreach yvar in $regvars {
 
-	loc H1 = "[e_`yvar'_mean]1.spillover#c.`yvar'_absdev"
+	loc H1 = "[e_`yvar'_mean]1.spillover#c.mdistance"
 	loc H2 = "[e_`yvar'_mean]1.spillover"
-	loc H3 = "[e_`yvar'_mean]`yvar'_absdev"
+	loc H3 = "[e_`yvar'_mean]mdistance"
 
  	est restore sur
 
@@ -126,4 +135,4 @@ foreach yvar in $regvars {
 
 /* Table options */
 
-esttab col* using "$output_dir/${reglabel}_vector.tex",  cells(none) booktabs nonum nonotes compress replace mtitle("Interaction" "\specialcell{Treated village}" "$D^\text{M.}$" "\specialcell{Control mean\\(Std. dev.)}" "Obs.") stats(`statnames', labels(`varlabels') )
+esttab col* using "$output_dir/${reglabel}_vector.tex",  cells(none) booktabs nonum nonotes compress replace mtitle("Interaction" "\specialcell{Treated village}" "\(D^\text{M.}\)" "\specialcell{Control mean\\(Std. dev.)}" "Obs.") stats(`statnames', labels(`varlabels') )

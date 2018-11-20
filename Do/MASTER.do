@@ -37,7 +37,7 @@ global ihvars ""
 
 // Controls as specified in Haushofer/Shapiro
 
-global controlvars "b_age b_married b_edu b_children b_hhsize ent_wagelabor0 ent_ownfarm0 ent_business0 ent_nonagbusiness0"
+global controlvars "b_age b_married b_edu b_children b_hhsize"
 
 ********************************************************************************
 ********************************* CHECK DATA ***********************************

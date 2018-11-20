@@ -3,6 +3,8 @@
 \usepackage[margin=1.5in]{geometry}
 \usepackage{amsmath, amssymb, amsthm, mathrsfs}
 \usepackage{lmodern, inconsolata}
+\usepackage{secdot, sectsty}
+\usepackage{secdot}
 \usepackage{bbm}
 \usepackage{fancyhdr}
 \usepackage{caption, graphicx}
@@ -43,6 +45,12 @@
   fontadjust=true,
   basewidth=0.5em
 }
+
+\sectionfont{\normalsize}
+\subsectionfont{\normalsize\selectfont}
+\subsubsectionfont{\normalsize\selectfont}
+
+\sectiondot{subsection}
 
 \newcommand{\specialcell}[2][c]{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 
@@ -173,6 +181,20 @@
     \maxsizebox*{\textwidth}{\textheight}{
     \begin{threeparttable}
     \input{../Tables/indices_ppp_poly.tex}
+    \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
+    The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
+    \end{tablenotes}
+    \end{threeparttable}
+    }
+    \end{table}
+
+    \begin{table}[H]
+    \centering
+    \caption{Spillover effects by Mahalanobis distance from village means}
+    \label{tab:mahalanobis}
+    \maxsizebox*{\textwidth}{\textheight}{
+    \begin{threeparttable}
+    \input{../Tables/indices_ppp_vector.tex}
     \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
     The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
     \end{tablenotes}
