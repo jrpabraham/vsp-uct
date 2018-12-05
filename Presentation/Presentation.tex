@@ -1,6 +1,6 @@
- 
+
 \documentclass[14pt, aspectratio=169]{beamer}
-\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{navigation symbols}{}
 \mode<presentation>
 {
   \usetheme{Boadilla}
@@ -105,9 +105,20 @@
 
 \begin{frame}{Motivation}
 \begin{itemize}
-	\item Househofer and Sharpiro (2016) RCT: villages where villagers were given transfers saw even those who did not receive transfers obtain spillover benefits.
-	\item Our question: \\ Does everyone experiences the same amount of spillover? 
+	\item Househofer and Sharpiro (2016): A cluster randomized controlled trial in rural Kenya to study the effect of unconditional cash trasnfers (UCT)
+    \item Reported improvements in asset ownership, consumption, income, subjective well-being, and female empowerment for recipients compared to non-recipients in the same village
+    \item Study depends on comparability of treated households in the same village (it does on average).
+	\item Our question: \\ Does everyone experiences the same amount of spillover?
 \end{itemize}
+\end{frame}
+
+\begin{frame}{Intervention}
+    \begin{itemize}
+    	\item Households eligible for study based on a thatched roof criteria
+        \item GiveDirectly transfered cash amounting to \$404 PPP
+        \item Households are subsistence farmers making \$85 PPP per month
+        \item Data from pre-treatment and post-treatment surveys
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Intervention}
@@ -124,11 +135,11 @@
 	\begin{equation*} \label{eq:interaction}
 	Y_{i,v} = \beta_0 + \beta_1 S_v + \beta_2 D_{i,v} + \beta_3 S_v \times  D_{i,v} + \varepsilon_{i,v}
 	\end{equation*}
-	
-	\item $Y_{i,v}$: Outcome variable of interest 
-    \item $S_v$: Indicator for living in a treatment village 
+
+	\item $Y_{i,v}$: Outcome variable of interest
+    \item $S_v$: Indicator for living in a treatment village
     \item $D_{i,v}$: Measure of demographic distance of individual $i$
- 
+
 \end{itemize}
 \end{frame}
 
@@ -139,7 +150,7 @@
 	\item Squared deviations from village averages
 	$$ D^2_{i,v}= \frac{(Y_{i,v,t=0} - \bar Y_{v,t=0})^2}{\text{SD}_v} $$
 	\item Mahalanobis measure
-	$$D^\text{M.}_{i,v} = \sqrt{( X_i - {\bar X})' {\hat S}^{-1}_v ( X_i - {\bar X})}  $$ 
+	$$D^\text{M.}_{i,v} = \sqrt{( X_i - {\bar X})' {\hat S}^{-1}_v ( X_i - {\bar X})}  $$
 \end{itemize}
 \end{frame}
 
@@ -165,7 +176,7 @@
   }
 \end{column}%
 \end{columns}
- 
+
 \end{frame}
 
 \begin{frame}{Conclusion}
@@ -175,5 +186,3 @@
 
 
 \end{document}
-
-
