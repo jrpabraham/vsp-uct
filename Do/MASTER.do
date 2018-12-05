@@ -133,32 +133,21 @@ saveold "$data_dir/UCT_FINAL_VSP.dta", replace
 ******************************* Estimation ****************************************
 ***********************************************************************************
 
-// Balance tables
-
 global immutable_baseline "b_age b_married b_children b_hhsize b_edu"
-do "$do_dir/UCT_PC_Baseline.do"
-
-// Interaction with distances based on baseline outcome
+do "$do_dir/UCT_PC_Baseline.do" // Balance tables
 
 global regvars "$indices_ppp"
 global reglabel "indices_ppp"
 
-do "$do_dir/UCT_SqDev_Regs.do"
-do "$do_dir/UCT_AbsDev_Regs.do"
-do "$do_dir/UCT_Poly_Regs.do"
+do "$do_dir/UCT_AbsDev_Regs.do" // Interaction with distances based on baseline outcome
+do "$do_dir/UCT_Poly_Regs.do"   // Interaction with quadratic terms
+do "$do_dir/UCT_Vector_Regs.do" // Interaction with Mahalanobis distance
 
 global regvars "$indices_log"
 global reglabel "indices_log"
 
-do "$do_dir/UCT_SqDev_Regs.do"
 do "$do_dir/UCT_AbsDev_Regs.do"
 do "$do_dir/UCT_Poly_Regs.do"
-
-// Interaction with Mahalanobis distance
-
-global regvars "$indices_ppp"
-global reglabel "indices_ppp"
-
 do "$do_dir/UCT_Vector_Regs.do"
 
 ***********************************************************************************

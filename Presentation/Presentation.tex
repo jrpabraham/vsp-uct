@@ -1,6 +1,6 @@
- 
+
 \documentclass[14pt, aspectratio=169]{beamer}
-\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{navigation symbols}{}
 \mode<presentation>
 {
   \usetheme{Boadilla}
@@ -112,7 +112,20 @@
 \end{frame}
 
 \begin{frame}{Intervention}
-content...
+    \begin{itemize}
+    	\item Households eligible for study based on a thatched roof criteria
+        \item GiveDirectly transfered cash amounting to \$404 PPP
+        \item Households are subsistence farmers making \$85 PPP per month
+        \item Data from pre-treatment and post-treatment surveys
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Intervention}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{design.png}
+	\caption{Treatment, Spillover, and Pure Control Groups}
+\end{figure}
 \end{frame}
 
 \begin{frame}{Identifying heterogeneity}
@@ -121,9 +134,9 @@ content...
 	\begin{equation*} \label{eq:interaction}
 	Y_{i,v} = \beta_0 + \beta_1 S_v + \beta_2 D_{i,v} + \beta_3 S_v \times  D_{i,v} + \varepsilon_{i,v}
 	\end{equation*}
-	
-	\item $Y_{i,v}$: Outcome variable of interest 
-    \item $S_v$: Indicator for living in a treatment village 
+
+	\item $Y_{i,v}$: Outcome variable of interest
+    \item $S_v$: Indicator for living in a treatment village
     \item $D_{i,v}$: Measure of demographic distance of individual $i$
  
 \end{wideitemize}
@@ -192,5 +205,3 @@ content...
 
 
 \end{document}
-
-
