@@ -22,6 +22,7 @@
 \usetikzlibrary{spy,calc,shapes.misc}
 \usepackage{hyperref}
 
+\newenvironment{wideitemize}{\itemize\addtolength{\itemsep}{10pt}}{\enditemize}
 
 
 
@@ -104,10 +105,10 @@
 \end{frame}
 
 \begin{frame}{Motivation}
-\begin{itemize}
+\begin{wideitemize}
 	\item Househofer and Sharpiro (2016) RCT: villages where villagers were given transfers saw even those who did not receive transfers obtain spillover benefits.
 	\item Our question: \\ Does everyone experiences the same amount of spillover? 
-\end{itemize}
+\end{wideitemize}
 \end{frame}
 
 \begin{frame}{Intervention}
@@ -115,7 +116,7 @@ content...
 \end{frame}
 
 \begin{frame}{Identifying heterogeneity}
-\begin{itemize}
+\begin{wideitemize}
 	\item Heterogeneity in linear spillover effects:
 	\begin{equation*} \label{eq:interaction}
 	Y_{i,v} = \beta_0 + \beta_1 S_v + \beta_2 D_{i,v} + \beta_3 S_v \times  D_{i,v} + \varepsilon_{i,v}
@@ -125,47 +126,67 @@ content...
     \item $S_v$: Indicator for living in a treatment village 
     \item $D_{i,v}$: Measure of demographic distance of individual $i$
  
-\end{itemize}
+\end{wideitemize}
 \end{frame}
 
 \begin{frame}{Measuring Demographic Distance}
-\begin{itemize}
+\begin{wideitemize}
 	\item Absolute distance
 	$$D_{i,v}  = \frac{|Y_{i,v,t=0} - \bar Y_{v,t=0}|}{\text{SD}_v} $$
 	\item Squared deviations from village averages
 	$$ D^2_{i,v}= \frac{(Y_{i,v,t=0} - \bar Y_{v,t=0})^2}{\text{SD}_v} $$
 	\item Mahalanobis measure
 	$$D^\text{M.}_{i,v} = \sqrt{( X_i - {\bar X})' {\hat S}^{-1}_v ( X_i - {\bar X})}  $$ 
-\end{itemize}
+\end{wideitemize}
 \end{frame}
 
-\begin{frame}{Results}
+\begin{frame}{Spillover Effects: Linear Estimates}
 \begin{columns}[T] % align columns
-\begin{column}{.35\textwidth}
-  \makebox[\linewidth][r]{
-    \resizebox{\linewidth}{!}{
-    \includegraphics[height=\textheight]{../Figs/indices_ppp_margins.pdf}
-    }
-  }
-  \end{column}%
+
 \hspace{-2.5ex}
-\begin{column}{.6\textwidth}
+\begin{column}{.8\textwidth}
   \makebox[\linewidth][l]{
     \resizebox{\linewidth}{!}{
    \begin{tikzpicture}[spy using outlines={chamfered rectangle,blue,magnification=2,width=18cm, height=8cm, connect spies}]
-\node {\includegraphics[page=5, trim={4cm 20cm 0 0}]{../Draft/VSP-draft.pdf}};
-\spy on (-4.5,-2.6) in node [right] at (1,9.5);
+\node {\includegraphics[page=5, trim={4cm 9cm 0 0}]{../Draft/VSP-draft.pdf}};
+\spy on (-4.6,2.83) in node [right] at (2,10);
 \end{tikzpicture}
 
     }
   }
 \end{column}%
 \end{columns}
+\end{frame}
+ 
+ 
+\begin{frame}{Spillover Effects: Quadratic Estimates}
+\begin{columns}[T] % align columns
+ \begin{column}{.45\textwidth}
+  \makebox[\linewidth][l]{
+    \resizebox{\linewidth}{!}{
+    \includegraphics[height=\textheight, trim={0 15cm 0 0}]{../Figs/indices_ppp_margins.pdf}
+    }
+  }
+  \end{column}%
+  \hspace{2.5ex}
+  \begin{column}{.45\textwidth}
+  \makebox[\linewidth][l]{
+    \resizebox{\linewidth}{!}{
+    \includegraphics[height=\textheight, trim={0 0 0 15cm}]{../Figs/indices_ppp_margins.pdf}
+    }
+  }
+  \end{column}%
+\end{columns} 
  
 \end{frame}
 
 \begin{frame}{Conclusion}
-
+\begin{wideitemize}
+\item Sizable spillovers for some outcomes within villages where some received cash transfers
+\item Spillovers are positive on average
+\item Spillovers vary by how demographically similar non-treated villagers are to the treated
+\item For those very dissimilar, suggestive evidence of \textit{negative} spillovers
+\end{wideitemize}
 \end{frame}
 
 
