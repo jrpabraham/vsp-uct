@@ -18,6 +18,10 @@
 \usepackage{times}
 \usepackage[T1]{fontenc}
 \usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{spy,calc,shapes.misc}
+\usepackage{hyperref}
+
 
 
 
@@ -136,11 +140,32 @@ content...
 \end{frame}
 
 \begin{frame}{Results}
-content...
+\begin{columns}[T] % align columns
+\begin{column}{.35\textwidth}
+  \makebox[\linewidth][r]{
+    \resizebox{\linewidth}{!}{
+    \includegraphics[height=\textheight]{../Figs/indices_ppp_margins.pdf}
+    }
+  }
+  \end{column}%
+\hspace{-2.5ex}
+\begin{column}{.6\textwidth}
+  \makebox[\linewidth][l]{
+    \resizebox{\linewidth}{!}{
+   \begin{tikzpicture}[spy using outlines={chamfered rectangle,blue,magnification=2,width=18cm, height=8cm, connect spies}]
+\node {\includegraphics[page=5, trim={4cm 20cm 0 0}]{../Draft/VSP-draft.pdf}};
+\spy on (-4.5,-2.6) in node [right] at (1,9.5);
+\end{tikzpicture}
+
+    }
+  }
+\end{column}%
+\end{columns}
+ 
 \end{frame}
 
 \begin{frame}{Conclusion}
-content...
+
 \end{frame}
 
 
