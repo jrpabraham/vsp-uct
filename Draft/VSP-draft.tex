@@ -77,12 +77,18 @@
 
 \section{Introduction}
 
-    \textcite{haushofer_short-term_2016} demonstrate that villages where villagers were given transfers saw even those who did not receive transfers obtain spillover benefits, as they can compare non-treated villagers in the treatment villages to those in the control villages. We allow for these spillovers to vary by demographics, as we might expect that villagers similar to recipients of the cash transfers would enjoy more spillover benefits.
-
+    \textcite{haushofer_short-term_2016}, in a randomized controlled trial conducted in rural Kenya, provided evidence that unconditional cash transfers (UCT) induced a strong connsumption response and improvements in psychological well-being among poor households. They estimate this effect by comparing households who received the transfer with households in the same village who did not. For these comparisons to identify the causal effect of receiving UCT, within-village spillover effects must be controlled. In order to test for potential spillover effects, \textcite{haushofer_short-term_2016} exploit a cluster randomization design to estimate spillover effects from households in the same village as treated households (henceforth ``spillover'' households) with households in villages without any transfers (henceforth ``pure control''). That study found no evidence of spillover effects on nine primary outcomes of interest. Although there may not be spillover effects on average, these could exhibit heterogeneity on certain types of households. In this study, we allow for these spillovers to vary by demographics, as we might expect that villagers similar to recipients of the cash transfers would enjoy more spillover benefits.
 
 \section{Data}
 
-    This analysis will use data from a randomized controlled trial of an unconditional cash transfer (UCT) program conducted in rural Kenya \parencite{haushofer_short-term_2016}. Between 2011 and 2013, GiveDirectly provided UCTs to poor households\footnote{At the time eligibility for the program was determined by living in a house with a thatched roof.} in rural Kenya amounting to USD PPP 404 and USD PPP 1525. The experimental design involved the random assignment of 60 villages to participate in the program and 60 in the control group \textit{and} the random assignment of eligible households within treatment villages to receive a cash transfer. Among households receiving the transfer, the trial also randomized whether the recipient was the head male or female, whether the transfer was paid out regularly or in a lump sum, and the size of the transfer. The data is comprised of a baseline survey collected before the intervention ($N=1008$), an endline survey a few weeks after the end of the intervention ($N=940$), and a long-term follow up 3 years after the endline survey ($N=901$). Surveys collected for sample households information on asset ownership, consumption, education, physical health, subjective well-being, business activity, labor supply, political behavior, investment decisions, and cortisol levels. The baseline and endline survey also collected village-level data on prices, wages, and violent conflict.
+    This analysis will use data from a randomized controlled trial of an unconditional cash transfer (UCT) program conducted in rural Kenya \parencite{haushofer_short-term_2016}. Between 2011 and 2013, GiveDirectly provided UCTs to poor households\footnote{At the time eligibility for the program was determined by living in a house with a thatched roof.} in rural Kenya amounting to USD PPP 404 and USD PPP 1525. The experimental design involved the random assignment of 60 villages to participate in the program and 60 in the control group \textit{and} the random assignment of eligible households within treatment villages to receive a cash transfer. Figure \ref{fig:design} illustrates the cluster randomization. Among households receiving the transfer, the trial also randomized whether the recipient was the head male or female, whether the transfer was paid out regularly or in a lump sum, and the size of the transfer. The data is comprised of a baseline survey collected before the intervention ($N=1008$), an endline survey a few weeks after the end of the intervention ($N=940$), and a long-term follow up 3 years after the endline survey ($N=901$). Surveys collected for sample households information on asset ownership, consumption, education, physical health, subjective well-being, business activity, labor supply, political behavior, investment decisions, and cortisol levels. The baseline and endline survey also collected village-level data on prices, wages, and violent conflict.
+
+    \begin{figure}[H]
+    	\centering
+    	\includegraphics[width=0.9\textwidth]{../Presentation/design.png}
+    	\caption{Treatment, Spillover, and Pure Control Groups}
+        \label{fig:design}
+    \end{figure}
 
 \section{Empirical Strategy}
 
@@ -123,6 +129,12 @@
     \subsection{Non-linear spillover effects}
 
         We further generalize the model by allowing for non-linearities in the distance term.
+
+        \begin{equation} \label{eq:quadratic}
+        Y_{i,v} = \beta_0 + \beta_1 S_v + \beta_2 D_{i,v} + \beta_3 S_v \times  D_{i,v} + \beta_4 D^2_{i,v} + \beta_5 S_v \times  D^2_{i,v} + \varepsilon_{i,v}
+        \end{equation}
+
+        We report these results and plot the estimated marginal spillover effect as a function of $D_{i,v}$.
 
 \section{Results}
 
