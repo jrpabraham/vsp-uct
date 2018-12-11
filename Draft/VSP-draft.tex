@@ -148,7 +148,7 @@
     \label{tab:absdev}
     \maxsizebox*{\textwidth}{\textheight}{
     \begin{threeparttable}
-    \input{../Tables/indices_ppp_absdev.tex}
+    \input{../Tables/indices_log_absdev.tex}
     \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
     The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
     \end{tablenotes}
@@ -160,33 +160,19 @@
 
     In Table \ref{tab:sqdev} we report the results from the same regressions, this time with the squared distances $D_i^2$ as a measure of demographic distance. Once again, the results strongly indicate that households dissimilar from an average villager experienced weaker spillover effects. The magnitude of the coefficients of the interaction terms are smaller, because the squared distance measure weights distances far away from the mean more heavily.
 
-    % \begin{table}[H]
-    % \centering
-    % \caption{Spillover effects by squared distance from village means}
-    % \label{tab:sqdev}
-    % \maxsizebox*{\textwidth}{\textheight}{
-    % \begin{threeparttable}
-    % \input{../Tables/indices_ppp_sqdev.tex}
-    % \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
-    % The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
-    % \end{tablenotes}
-    % \end{threeparttable}
-    % }
-    % \end{table}
-
-    % \begin{table}[H]
-    % \centering
-    % \caption{Quadratic spillover effects}
-    % \label{tab:quadratic}
-    % \maxsizebox*{\textwidth}{\textheight}{
-    % \begin{threeparttable}
-    % \input{../Tables/indices_ppp_poly.tex}
-    % \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
-    % The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
-    % \end{tablenotes}
-    % \end{threeparttable}
-    % }
-    % \end{table}
+    \begin{table}[H]
+    \centering
+    \caption{Quadratic spillover effects}
+    \label{tab:quadratic}
+    \maxsizebox*{\textwidth}{\textheight}{
+    \begin{threeparttable}
+    \input{../Tables/indices_log_poly.tex}
+    \begin{tablenotes}[flushleft] \footnotesize \item \emph{Notes}:
+    The unit of observation is the household for all outcome variables except for the psychological variables index, where it is the individual. The sample is restricted to co-habitating couples for the female empowerment index, and households with school-age children for the education index. All columns include village-level fixed effects, control for baseline outcomes, and cluster standard errors at the village level. * denotes significance at 10 pct., ** at 5 pct., and *** at 1 pct. level.
+    \end{tablenotes}
+    \end{threeparttable}
+    }
+    \end{table}
 
     \begin{table}[H]
     \centering
@@ -205,7 +191,7 @@
     \begin{figure}[ht]
     \centering
     \caption{Quadratic spillover effects by demographic distance}
-    \includegraphics[height=0.85\textheight]{../Figs/indices_ppp_margins.pdf}
+    \includegraphics[height=0.85\textheight]{../Figs/indices_log_margins.pdf}
     \label{fig:margins}
     \caption*{\footnotesize \emph{Notes:} }
     \end{figure}
